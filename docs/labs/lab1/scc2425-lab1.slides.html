@@ -14672,7 +14672,7 @@ div.jp-OutputPrompt {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Goals">Goals<a class="anchor-link" href="#Goals">&#182;</a></h1><ul>
 <li>Create an Azure Student Subscription;</li>
-<li>Deploy a simple web application with a REST API to the Azure Cloud Platform</li>
+<li>Deploy a simple web application with a REST API to the Azure Cloud Platform;</li>
 <li>Set-up git for sharing the project with your group partner</li>
 </ul>
 
@@ -14699,7 +14699,341 @@ div.jp-OutputPrompt {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><img src="azure-signin.png" width="50%"></img></p>
+<p><img src="azure-signin.png" width="75%"></img></p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Azure-Portal">Azure Portal<a class="anchor-link" href="#Azure-Portal">&#182;</a></h1><p>The Azure Portal is available at the URL below:</p>
+<p><a href="https://portal.azure.com/#home">https://portal.azure.com/#home</a></p>
+<p>Here, you can create, inspect and delete resources.</p>
+<p>Resources can be VMs, Web Apps, Storage accounts, etc.</p>
+<p>Some kinds of resources are <strong>free</strong>; others can be <strong>quite expensive</strong>.</p>
+<p>Use resources carefully to save credits.</p>
+
+</div>
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>In this lab, we will only use Web Apps.</p>
+<p>They will be created and deployed automatically using <a href="https://maven.apache.org/">maven</a>.</p>
+<p>More info on other kinds of resources will be the subject of future labs.</p>
+
+</div>
+</div>
+</div>
+</div>
+</aside></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Azure-Portal-(2)">Azure Portal (2)<a class="anchor-link" href="#Azure-Portal-(2)">&#182;</a></h1><p>Delete your resources when you are not using them (to avoid wasting credits).</p>
+<p><img src="azure-all-resources.png" width="75%"></img></p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h1><h2 id="Simple-web-app">Simple web app<a class="anchor-link" href="#Simple-web-app">&#182;</a></h2><p>Code available <a href="../../lab1">here</a>.</p>
+<p>Web application with two REST resources:</p>
+<ul>
+<li><code>ControlResource</code></li>
+</ul>
+<p>There is a single endpoint that prints a version number.</p>
+<p>Can be useful to check if the version running in the Azure Cloud is the latest;</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li><code>MediaResource</code></li>
+</ul>
+<p>Provides endpoints to upload and download binary data (eg. images, videos);
+Also allows retrieving the list of available data items.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Deployment">Deployment<a class="anchor-link" href="#Deployment">&#182;</a></h1><p>The code provided is a Maven project.</p>
+<p>The project is configured to target Tomcat 10 (with Java 17).</p>
+<ul>
+<li>This is the version that is available at Azure.</li>
+</ul>
+<p>Deployment is done in three steps:</p>
+<ol>
+<li>Sign-in to Azure;</li>
+<li>Specify the deployment configuration (region, machine type, etc);</li>
+<li>Compile, package and deploy the web application.</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The first two steps <strong>do not</strong> have to be repeated everytime the code changes.</p>
+<p>It is possible to launch the server locally before deploying to Azure.</p>
+
+</div>
+</div>
+</div>
+</div>
+</aside></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Plugins">Plugins<a class="anchor-link" href="#Plugins">&#182;</a></h1><p>Microsoft has plug-ins for making it easy to deploy Web Apps to the Azure platform using Eclipse or IntelliJ.</p>
+<p>We will be using the <strong>command line</strong> and <strong>maven</strong> for deploying applications.</p>
+
+</div>
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>For Eclipse go to:</p>
+<p><a href="https://docs.microsoft.com/en-us/azure/developer/java/toolkit-for-eclipse/installation">https://docs.microsoft.com/en-us/azure/developer/java/toolkit-for-eclipse/installation</a></p>
+<p>For IntelliJ go to:</p>
+<p><a href="https://docs.microsoft.com/en-us/azure/developer/java/toolkit-for-intellij/">https://docs.microsoft.com/en-us/azure/developer/java/toolkit-for-intellij/</a></p>
+
+</div>
+</div>
+</div>
+</div>
+</aside></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Using-Maven-to-deploy-to-Azure">Using Maven to deploy to Azure<a class="anchor-link" href="#Using-Maven-to-deploy-to-Azure">&#182;</a></h1><p>Requirements:</p>
+<ul>
+<li>Azure CLI</li>
+<li>Maven</li>
+</ul>
+<p>Install the latest Azure CLI on your system:</p>
+<p><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest">https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest</a></p>
+<p>Follow the steps in the above link to associate your Azure CLI with your Azure account.</p>
+<p>Without it, you will not be able to deploy applications to Azure.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Azure-CLI">Azure CLI<a class="anchor-link" href="#Azure-CLI">&#182;</a></h1><p><img src="az-login.png" width="75%"></img></p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Using-Maven-to-deploy-to-Azure-(2)">Using Maven to deploy to Azure (2)<a class="anchor-link" href="#Using-Maven-to-deploy-to-Azure-(2)">&#182;</a></h1><p>The *<strong>pom.xml</strong>* file of the project, in the *<strong>build</strong>* section will use:</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;plugin&gt;</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.microsoft.azure<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>azure-webapp-maven-plugin<span class="nt">&lt;/artifactId&gt;</span><span class="w">  </span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>2.13.0<span class="nt">&lt;/version&gt;</span><span class="w">  </span>
+<span class="nt">&lt;/plugin&gt;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Check the pom.xml of the provided sample project for a more detailed example of the plugin configuration options.</p>
+
+</div>
+</div>
+</div>
+</div>
+</aside></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Using-Maven-to-deploy-to-Azure-(3)">Using Maven to deploy to Azure (3)<a class="anchor-link" href="#Using-Maven-to-deploy-to-Azure-(3)">&#182;</a></h1><p>Choose the deployment configuration:</p>
+<p><code>mvn azure-webapp:config</code></p>
+
+</div>
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Run the command in the root directory of the project, (i.e., the directory that contains de pom.xml)</p>
+
+</div>
+</div>
+</div>
+</div>
+</aside></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="deployment-config.png" width="33%"></img></p>
+
+</div>
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Application">Application<a class="anchor-link" href="#Application">&#182;</a></h4><ul>
+<li><p>appName</p>
+</li>
+<li><p>resourceGroup</p>
+<p>Make sure you change these names – suggestion use your student number as suffix.</p>
+</li>
+</ul>
+<h4 id="Region">Region<a class="anchor-link" href="#Region">&#182;</a></h4><ul>
+<li><p>westeurope</p>
+<p>*<strong>Exercise:</strong>* try a different region to compare latency.</p>
+</li>
+</ul>
+<h4 id="Pricing-Tier">Pricing Tier<a class="anchor-link" href="#Pricing-Tier">&#182;</a></h4><p>For now, let’s use the free tier (<strong>F1</strong>).</p>
+
+</div>
+</div>
+</div>
+</div>
+</aside></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="deployment-config2.png" width="50%"></img></p>
+
+</div>
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Runtime">Runtime<a class="anchor-link" href="#Runtime">&#182;</a></h4><ul>
+<li><p>OS: Linux</p>
+</li>
+<li><p>Java version: Java 17</p>
+</li>
+<li><p>Application Server: TOMCAT 10.0</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+</aside></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Using-Maven-(2)">Using Maven (2)<a class="anchor-link" href="#Using-Maven-(2)">&#182;</a></h1><p>Compile and deploy your application by running:</p>
+<p><code>mvn clean compile package azure-webapp:deploy</code></p>
+
+</div>
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>This should launch your application on Azure, printing the URL to access it.</p>
+<p>Try accessing the /rest/ctrl/version endpoint...</p>
+<p>Use some REST client – e.g. <a href="https://www.postman.com/">Postman</a> – to test other methods</p>
+
+</div>
+</div>
+</div>
+</div>
+</aside>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Exercise">Exercise<a class="anchor-link" href="#Exercise">&#182;</a></h1><ul>
+<li><p>Deploy the provided sample project.</p>
+</li>
+<li><p>Complete and try the MediaResource.</p>
+<p>For example, wse <a href="https://www.postman.com/">Postman</a> to upload a picture and the browser to download it.</p>
+</li>
+</ul>
 
 </div>
 </div>
