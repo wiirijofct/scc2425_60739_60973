@@ -1,11 +1,6 @@
-# Labs
-
+# Lab 1
+## Azure Web Application Deployment
 
 ## Support Materials:
-* [Lab 1](lab1)  - Azure setup;
-* [Lab 2](lab2)  - Azure Blobs;
-* [Lab 3](lab3)  - Azure CosmosDB;
-
-## Project #1:
-
-## Project #2:
+* Sample Code [link]()
+* Slides [.html](scc2425-lab1.html), [.ipynb](scc2425-lab1.ipynb)
