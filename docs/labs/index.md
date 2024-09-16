@@ -11,6 +11,6 @@
 
 ## Project #1:
 * [Tukano](https://github.com/smduarte/scc2425/tree/main/scc2425-tukano)  - Tukano Maven Project;
-* Project Assigment Text - Soon...
+* Assigment Text - Soon...
 
 ## Project #2:
