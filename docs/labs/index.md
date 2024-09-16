@@ -10,6 +10,6 @@
 -->
 
 ## Project #1:
-* [Tukano](../../tukano)  - Tukano Maven Project;
+* [Tukano](https://github.com/smduarte/scc2425/tree/main/scc2425-tukano)  - Tukano Maven Project;
 
 ## Project #2:
