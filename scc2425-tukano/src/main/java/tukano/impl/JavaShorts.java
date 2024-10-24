@@ -75,10 +75,10 @@ public class JavaShorts implements Shorts {
 			return errorOrResult( okUser( shrt.getOwnerId(), password), user -> {
 				return DB.transaction( hibernate -> {
 
-					hibernate.remove( shrt);
+					//hibernate.remove( shrt);
 					
 					var query = format("DELETE Likes l WHERE l.shortId = '%s'", shortId);
-					hibernate.createNativeQuery( query, Likes.class).executeUpdate();
+					//hibernate.createNativeQuery( query, Likes.class).executeUpdate();
 					
 					JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get() );
 				});
@@ -174,15 +174,15 @@ public class JavaShorts implements Shorts {
 						
 			//delete shorts
 			var query1 = format("DELETE Short s WHERE s.ownerId = '%s'", userId);		
-			hibernate.createQuery(query1, Short.class).executeUpdate();
+			//hibernate.createQuery(query1, Short.class).executeUpdate();
 			
 			//delete follows
 			var query2 = format("DELETE Following f WHERE f.follower = '%s' OR f.followee = '%s'", userId, userId);		
-			hibernate.createQuery(query2, Following.class).executeUpdate();
+			//hibernate.createQuery(query2, Following.class).executeUpdate();
 			
 			//delete likes
 			var query3 = format("DELETE Likes l WHERE l.ownerId = '%s' OR l.userId = '%s'", userId, userId);		
-			hibernate.createQuery(query3, Likes.class).executeUpdate();
+			//hibernate.createQuery(query3, Likes.class).executeUpdate();
 			
 		});
 	}
