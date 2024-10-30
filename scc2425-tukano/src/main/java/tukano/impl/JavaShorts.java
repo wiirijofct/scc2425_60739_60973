@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import redis.clients.jedis.Jedis;
 import tukano.api.Blobs;
 import tukano.api.Result;
 import tukano.api.Short;
@@ -23,12 +24,16 @@ import tukano.impl.data.Following;
 import tukano.impl.data.Likes;
 import tukano.impl.rest.TukanoRestServer;
 import utils.DB;
+import utils.JSON;
+import utils.RedisCache;
 
 public class JavaShorts implements Shorts {
 
 	private static Logger Log = Logger.getLogger(JavaShorts.class.getName());
 	
 	private static Shorts instance;
+
+	private static final int SHORT_CACHE_TTL = 5; // 5 seconds
 	
 	synchronized public static Shorts getInstance() {
 		if( instance == null )
@@ -44,12 +49,26 @@ public class JavaShorts implements Shorts {
 		Log.info(() -> format("createShort : userId = %s, pwd = %s\n", userId, password));
 
 		return errorOrResult( okUser(userId, password), user -> {
-			
 			var shortId = format("%s+%s", userId, UUID.randomUUID());
 			var blobUrl = format("%s/%s/%s", TukanoRestServer.serverURI, Blobs.NAME, shortId); 
 			var shrt = new Short(shortId, userId, blobUrl);
 
-			return errorOrValue(DB.insertOne(shrt), s -> s.copyWithLikes_And_Token(0));
+			var insertResult = DB.insertOne(shrt);
+			if( !insertResult.isOK() ){
+				return insertResult;
+			}
+
+			var completeShort = shrt.copyWithLikes_And_Token(0);
+
+			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+
+				var key = "shorts:" + shortId;
+				var value = JSON.encode(completeShort);
+				jedis.set(key, value);
+				jedis.expire(key, SHORT_CACHE_TTL);
+			
+			}
+			return ok(completeShort);
 		});
 	}
 
@@ -59,6 +78,16 @@ public class JavaShorts implements Shorts {
 
 		if( shortId == null )
 			return error(BAD_REQUEST);
+
+		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+		
+			var key = "shorts:" + shortId;
+			var value = jedis.get(key);
+			if( value != null ) {
+				jedis.expire(key, SHORT_CACHE_TTL);
+				return Result.ok(JSON.decode(value, Short.class));
+			}
+		}
 
 		var query = format("SELECT count(*) FROM Likes l WHERE l.shortId = '%s'", shortId);
 		var likes = DB.sql(query, Long.class);
