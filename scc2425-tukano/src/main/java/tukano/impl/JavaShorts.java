@@ -119,6 +119,14 @@ public class JavaShorts implements Shorts {
 						}
 					}
 
+					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+						var key = "shorts:" + shortId;
+						if(jedis.exists(key)) {
+							jedis.del(key);
+						}
+					}
+					
+
 					JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get());
 					return Result.ok();
 				});
@@ -233,6 +241,12 @@ public class JavaShorts implements Shorts {
 				Result<Short> deleteShortRes = DB.deleteOne(shortObj);
 				if (deleteShortRes.error() != null) {
 					return Result.error(deleteShortRes.error());
+				}
+				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+					var key = "shorts:" + shortObj.getShortId();
+					if(jedis.exists(key)) {
+						jedis.del(key);
+					}
 				}
 			}
 			// delete follows
