@@ -113,11 +113,11 @@ public class JavaShorts implements Shorts {
 						return Result.error(res.error());
 					}
 					String likesQuery = format("SELECT * FROM c WHERE c.shortId = '%s' AND c.type = 'like'", shortId);
-					List<Short> likesList = DB.sql(likesQuery, Short.class);
+					List<Likes> likesList = DB.sql(likesQuery, Likes.class);
 					// var query = format("DELETE Likes l WHERE l.shortId = '%s'", shortId);
 					// hibernate.createNativeQuery( query, Likes.class).executeUpdate();
-					for (Short like : likesList) {
-						Result<Short> deleteLikeRes = DB.deleteOne(like);
+					for (Likes like : likesList) {
+						Result<Likes> deleteLikeRes = DB.deleteOne(like);
 						if (deleteLikeRes.error() != null) {
 							return Result.error(deleteLikeRes.error());
 						}
@@ -256,18 +256,18 @@ public class JavaShorts implements Shorts {
 			String deleteFollowsQuery = format(
 					"SELECT * FROM c WHERE c.follower = '%s' OR c.followee = '%s' AND c.type ='following'", userId,
 					userId);
-			List<Short> followsList = DB.sql(deleteFollowsQuery, Short.class);
-			for (Short follow : followsList) {
-				Result<Short> deleteFollowRes = DB.deleteOne(follow);
+			List<Following> followsList = DB.sql(deleteFollowsQuery, Following.class);
+			for (Following follow : followsList) {
+				Result<Following> deleteFollowRes = DB.deleteOne(follow);
 				if (deleteFollowRes.error() != null) {
 					return Result.error(deleteFollowRes.error());
 				}
 			}
 			// delete likes
 			String deleteLikesQuery = format("SELECT * FROM c WHERE c.userId = '%s' AND c.type = 'like'", userId);
-			List<Short> likesList = DB.sql(deleteLikesQuery, Short.class);
-			for (Short like : likesList) {
-				Result<Short> deleteLikeRes = DB.deleteOne(like);
+			List<Likes> likesList = DB.sql(deleteLikesQuery, Likes.class);
+			for (Likes like : likesList) {
+				Result<Likes> deleteLikeRes = DB.deleteOne(like);
 				if (deleteLikeRes.error() != null) {
 					return Result.error(deleteLikeRes.error());
 				}
