@@ -13,6 +13,7 @@ import com.azure.cosmos.models.CosmosItemRequestOptions;
 import com.azure.cosmos.models.CosmosItemResponse;
 import com.azure.cosmos.models.CosmosQueryRequestOptions;
 import com.azure.cosmos.models.PartitionKey;
+import com.azure.cosmos.util.CosmosPagedIterable;
 
 import tukano.api.Result;
 import tukano.api.Result.ErrorCode;
@@ -103,8 +104,10 @@ public class CosmosDB {
     public <T> List<T> sql(String sqlStatement, Class<T> clazz) {
         try {
             CosmosContainer cosmosContainer = getContainerForClass(clazz);
-            Iterable<T> query = cosmosContainer.queryItems(sqlStatement, new CosmosQueryRequestOptions(), clazz);
-            return (List<T>) query;
+            CosmosPagedIterable<T> query = cosmosContainer.queryItems(sqlStatement, new CosmosQueryRequestOptions(), clazz);
+
+            List<T> results = query.stream().toList();
+            return results;
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

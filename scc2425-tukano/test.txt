@@ -1,0 +1,436 @@
+Using CATALINA_BASE:   /usr/local/tomcat
+Using CATALINA_HOME:   /usr/local/tomcat
+Using CATALINA_TMPDIR: /usr/local/tomcat/temp
+Using JRE_HOME:        /opt/java/openjdk
+Using CLASSPATH:       /usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar
+Using CATALINA_OPTS:   
+NOTE: Picked up JDK_JAVA_OPTIONS:  --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+02-Nov-2024 19:30:28.012 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.0.27
+02-Nov-2024 19:30:28.019 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Oct 3 2022 14:18:31 UTC
+02-Nov-2024 19:30:28.020 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.0.27.0
+02-Nov-2024 19:30:28.020 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux
+02-Nov-2024 19:30:28.021 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            6.1.0-26-amd64
+02-Nov-2024 19:30:28.021 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+02-Nov-2024 19:30:28.021 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /opt/java/openjdk
+02-Nov-2024 19:30:28.021 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           17.0.5+8
+02-Nov-2024 19:30:28.022 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Eclipse Adoptium
+02-Nov-2024 19:30:28.022 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /usr/local/tomcat
+02-Nov-2024 19:30:28.022 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /usr/local/tomcat
+02-Nov-2024 19:30:28.045 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+02-Nov-2024 19:30:28.045 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+02-Nov-2024 19:30:28.045 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+02-Nov-2024 19:30:28.045 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+02-Nov-2024 19:30:28.045 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+02-Nov-2024 19:30:28.046 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties
+02-Nov-2024 19:30:28.046 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+02-Nov-2024 19:30:28.046 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+02-Nov-2024 19:30:28.046 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+02-Nov-2024 19:30:28.046 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dorg.apache.catalina.security.SecurityListener.UMASK=0027
+02-Nov-2024 19:30:28.046 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+02-Nov-2024 19:30:28.046 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/usr/local/tomcat
+02-Nov-2024 19:30:28.046 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/usr/local/tomcat
+02-Nov-2024 19:30:28.047 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/usr/local/tomcat/temp
+02-Nov-2024 19:30:28.064 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [1.2.35] using APR version [1.7.0].
+02-Nov-2024 19:30:28.064 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [true].
+02-Nov-2024 19:30:28.072 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.2 15 Mar 2022]
+02-Nov-2024 19:30:28.483 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+02-Nov-2024 19:30:28.516 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [1249] milliseconds
+02-Nov-2024 19:30:28.580 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+02-Nov-2024 19:30:28.581 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.0.27]
+02-Nov-2024 19:30:28.593 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/manager]
+02-Nov-2024 19:30:29.398 WARNING [main] org.apache.catalina.util.SessionIdGeneratorBase.createSecureRandom Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [124] milliseconds.
+02-Nov-2024 19:30:29.535 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/manager] has finished in [943] ms
+02-Nov-2024 19:30:29.536 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/host-manager]
+02-Nov-2024 19:30:29.588 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/host-manager] has finished in [52] ms
+02-Nov-2024 19:30:29.589 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/ROOT]
+02-Nov-2024 19:30:29.617 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/ROOT] has finished in [28] ms
+02-Nov-2024 19:30:29.618 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/docs]
+02-Nov-2024 19:30:29.643 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/docs] has finished in [24] ms
+02-Nov-2024 19:30:29.644 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/examples]
+02-Nov-2024 19:30:30.155 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/examples] has finished in [511] ms
+02-Nov-2024 19:30:30.159 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+02-Nov-2024 19:30:30.225 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [1709] milliseconds
+02-Nov-2024 19:31:07.052 INFO [http-nio-8080-exec-3] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [/usr/local/tomcat/webapps/tukano.war]
+02-Nov-2024 19:31:11.806 INFO [http-nio-8080-exec-3] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+02-Nov-2024 19:31:12.089 INFO [http-nio-8080-exec-3] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [/usr/local/tomcat/webapps/tukano.war] has finished in [5,035] ms
+02-Nov-2024 19:31:19.765 INFO [http-nio-8080-exec-7] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002225: Deploying jakarta.ws.rs.core.Application: class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:31:19.790 INFO [http-nio-8080-exec-7] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002200: Adding class resource tukano.impl.rest.RestUsersResource from Application class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:31:19.791 INFO [http-nio-8080-exec-7] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002200: Adding class resource tukano.impl.rest.RestShortsResource from Application class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:31:19.792 INFO [http-nio-8080-exec-7] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002200: Adding class resource tukano.impl.rest.RestBlobsResource from Application class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:31:20.188 INFO [http-nio-8080-exec-7] tukano.impl.JavaUsers.searchUsers searchUsers : patterns = null
+
+02-Nov-2024 19:31:20.254 ERROR [http-nio-8080-exec-7] org.jboss.resteasy.core.providerfactory.DefaultExceptionMapper.process RESTEASY002375: Error processing request GET /tukano/rest/users/ - tukano.api.rest.RestUsers.searchUsers
+	java.lang.NullPointerException: Cannot invoke "String.toUpperCase()" because "pattern" is null
+		at tukano.impl.JavaUsers.searchUsers(JavaUsers.java:136)
+		at tukano.impl.rest.RestUsersResource.searchUsers(RestUsersResource.java:41)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+		at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+		at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+		at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:154)
+		at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:118)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.internalInvokeOnTarget(ResourceMethodInvoker.java:560)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invokeOnTargetAfterFilter(ResourceMethodInvoker.java:452)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.lambda$invokeOnTarget$2(ResourceMethodInvoker.java:413)
+		at org.jboss.resteasy.core.interception.jaxrs.PreMatchContainerRequestContext.filter(PreMatchContainerRequestContext.java:321)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invokeOnTarget(ResourceMethodInvoker.java:415)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:378)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:356)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:70)
+		at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:429)
+		at org.jboss.resteasy.core.SynchronousDispatcher.lambda$invoke$4(SynchronousDispatcher.java:240)
+		at org.jboss.resteasy.core.SynchronousDispatcher.lambda$preprocess$0(SynchronousDispatcher.java:154)
+		at org.jboss.resteasy.core.interception.jaxrs.PreMatchContainerRequestContext.filter(PreMatchContainerRequestContext.java:321)
+		at org.jboss.resteasy.core.SynchronousDispatcher.preprocess(SynchronousDispatcher.java:157)
+		at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:229)
+		at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:222)
+		at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55)
+		at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:51)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:792)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:223)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:119)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:690)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:356)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:870)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1762)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+		at java.base/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:34:56.966 INFO [http-nio-8080-exec-6] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/tukano]
+02-Nov-2024 19:34:57.532 INFO [http-nio-8080-exec-6] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [/usr/local/tomcat/webapps/tukano.war]
+02-Nov-2024 19:35:01.375 INFO [http-nio-8080-exec-6] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+02-Nov-2024 19:35:01.712 INFO [http-nio-8080-exec-6] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [/usr/local/tomcat/webapps/tukano.war] has finished in [4,180] ms
+02-Nov-2024 19:35:06.810 INFO [http-nio-8080-exec-2] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002225: Deploying jakarta.ws.rs.core.Application: class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:35:06.813 INFO [http-nio-8080-exec-2] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002200: Adding class resource tukano.impl.rest.RestShortsResource from Application class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:35:06.813 INFO [http-nio-8080-exec-2] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002200: Adding class resource tukano.impl.rest.RestUsersResource from Application class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:35:06.813 INFO [http-nio-8080-exec-2] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002200: Adding class resource tukano.impl.rest.RestBlobsResource from Application class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:35:06.920 INFO [http-nio-8080-exec-2] tukano.impl.JavaUsers.searchUsers searchUsers : patterns = null
+
+[http-nio-8080-exec-2] WARN com.azure.cosmos.implementation.Utils - Neither Afterburner nor Blackbird Jackson module loaded.  Consider adding one to your classpath for maximum Jackson performance.
+[http-nio-8080-exec-2] WARN com.azure.cosmos.implementation.Utils - Neither Afterburner nor Blackbird Jackson module loaded.  Consider adding one to your classpath for maximum Jackson performance.
+[http-nio-8080-exec-2] INFO com.azure.cosmos.implementation.RxDocumentClientImpl - Initializing DocumentClient [1] with serviceEndpoint [https://cosmos60739.documents.azure.com:443/], connectionPolicy [ConnectionPolicy{httpNetworkRequestTimeout=PT1M, tcpNetworkRequestTimeout=PT5S, connectionMode=GATEWAY, maxConnectionPoolSize=1000, idleHttpConnectionTimeout=PT1M, idleTcpConnectionTimeout=PT0S, userAgentSuffix='', throttlingRetryOptions=RetryOptions{maxRetryAttemptsOnThrottledRequests=9, maxRetryWaitTime=PT30S}, endpointDiscoveryEnabled=true, preferredRegions=null, multipleWriteRegionsEnabled=true, proxyType=null, inetSocketProxyAddress=null, readRequestsFallbackEnabled=true, connectTimeout=PT5S, idleTcpEndpointTimeout=PT1H, maxConnectionsPerEndpoint=130, maxRequestsPerConnection=30, tcpConnectionEndpointRediscoveryEnabled=true, ioThreadPriority=5, ioThreadCountPerCoreFactor=2, tcpHealthCheckTimeoutDetectionEnabled=true, minConnectionPoolSizePerEndpoint=1, openConnectionsConcurrency=1, aggressiveWarmupConcurrency=6}], consistencyLevel [Session]
+[http-nio-8080-exec-2] INFO com.azure.cosmos.implementation.http.SharedGatewayHttpClient - creating a new shared HttpClient
+[cosmos-parallel-1] INFO com.azure.cosmos.implementation.RxDocumentClientImpl - Getting database account endpoint from https://cosmos60739.documents.azure.com:443/
+[reactor-http-epoll-1] INFO com.azure.cosmos.implementation.GlobalEndpointManager - db account retrieved {"_self":"","id":"cosmos60739","_rid":"cosmos60739.documents.azure.com","media":"//media/","addresses":"//addresses/","_dbs":"//dbs/","writableLocations":[{"name":"North Europe","databaseAccountEndpoint":"https://cosmos60739-northeurope.documents.azure.com:443/"}],"readableLocations":[{"name":"North Europe","databaseAccountEndpoint":"https://cosmos60739-northeurope.documents.azure.com:443/"}],"enableMultipleWriteLocations":false,"continuousBackupEnabled":false,"enableNRegionSynchronousCommit":false,"userReplicationPolicy":{"asyncReplication":false,"minReplicaSetSize":3,"maxReplicasetSize":4},"userConsistencyPolicy":{"defaultConsistencyLevel":"Session"},"systemReplicationPolicy":{"minReplicaSetSize":3,"maxReplicasetSize":4},"readPolicy":{"primaryReadCoefficient":1,"secondaryReadCoefficient":1},"queryEngineConfiguration":"{\"allowNewKeywords\":true,\"maxJoinsPerSqlQuery\":10,\"maxQueryRequestTimeoutFraction\":0.9,\"maxSqlQueryInputLength\":524288,\"maxUdfRefPerSqlQuery\":10,\"queryMaxInMemorySortDocumentCount\":-1000,\"spatialMaxGeometryPointCount\":256,\"sqlAllowNonFiniteNumbers\":false,\"sqlDisableOptimizationFlags\":0,\"sqlQueryILDisableOptimizationFlags\":0,\"clientDisableOptimisticDirectExecution\":false,\"enableSpatialIndexing\":true,\"maxInExpressionItemsCount\":2147483647,\"maxLogicalAndPerSqlQuery\":2147483647,\"maxLogicalOrPerSqlQuery\":2147483647,\"maxSpatialQueryCells\":2147483647,\"sqlAllowAggregateFunctions\":true,\"sqlAllowGroupByClause\":true,\"sqlAllowLike\":true,\"sqlAllowSubQuery\":true,\"sqlAllowScalarSubQuery\":true,\"sqlAllowTop\":true}"}
+[http-nio-8080-exec-2] WARN com.azure.cosmos.CosmosClientBuilder - Cosmos Client with (Correlation) ID [00001] started up in [1927] ms with the following configuration: serviceEndpoint [https://cosmos60739.documents.azure.com:443/], preferredRegions [[]], excludedRegions [[]], connectionPolicy [ConnectionPolicy{httpNetworkRequestTimeout=PT1M, tcpNetworkRequestTimeout=PT5S, connectionMode=GATEWAY, maxConnectionPoolSize=1000, idleHttpConnectionTimeout=PT1M, idleTcpConnectionTimeout=PT0S, userAgentSuffix='', throttlingRetryOptions=RetryOptions{maxRetryAttemptsOnThrottledRequests=9, maxRetryWaitTime=PT30S}, endpointDiscoveryEnabled=true, preferredRegions=null, multipleWriteRegionsEnabled=true, proxyType=null, inetSocketProxyAddress=null, readRequestsFallbackEnabled=true, connectTimeout=PT5S, idleTcpEndpointTimeout=PT1H, maxConnectionsPerEndpoint=130, maxRequestsPerConnection=30, tcpConnectionEndpointRediscoveryEnabled=true, ioThreadPriority=5, ioThreadCountPerCoreFactor=2, tcpHealthCheckTimeoutDetectionEnabled=true, minConnectionPoolSizePerEndpoint=1, openConnectionsConcurrency=1, aggressiveWarmupConcurrency=6}], consistencyLevel [Session], contentResponseOnWriteEnabled [true], sessionCapturingOverride [false], connectionSharingAcrossClients [true], clientTelemetryEnabled [false], proactiveContainerInit [null], diagnostics [{samplingRate=1.0, thresholds={pointOperationLatencyThreshold=PT1S, nonPointOperationLatencyThreshold=PT3S, requestChargeThreshold=1000.0, payloadSizeInBytesThreshold=2147483647, customFailureHandler=false}, clientCorrelationId=null, clientTelemetryEnabled=false, clientMetricsEnabled=true, transportLevelTracingEnabled=false, showQueryMode=None, customTracerProvided=false, customDiagnosticHandlers=()}], tracing [true, false, com.azure.cosmos.implementation.DiagnosticsProvider.EnabledNoOpTracer, [com.azure.cosmos.implementation.clienttelemetry.ClientMetricsDiagnosticsHandler]], nativeTransport [true] fastClientOpen [true] isRegionScopedSessionCapturingEnabled [false]
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$CosmosDB initialized$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+COSMOS DB KEY = iuN0ehTm64McI6tW64efnus9lFzbNHE5l0glpUdVdDaPukjvbcO1lQExhGaPb17zkAwVTNdWBOcBACDb0vSDqA==
+java.lang.ClassCastException: class com.azure.cosmos.util.CosmosPagedIterable cannot be cast to class java.util.List (com.azure.cosmos.util.CosmosPagedIterable is in unnamed module of loader org.apache.catalina.loader.ParallelWebappClassLoader @497eb58f; java.util.List is in module java.base of loader 'bootstrap')
+	at utils.CosmosDB.sql(CosmosDB.java:107)
+	at utils.DB.sql(DB.java:14)
+	at tukano.impl.JavaUsers.searchUsers(JavaUsers.java:139)
+	at tukano.impl.rest.RestUsersResource.searchUsers(RestUsersResource.java:41)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:154)
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:118)
+	at org.jboss.resteasy.core.ResourceMethodInvoker.internalInvokeOnTarget(ResourceMethodInvoker.java:560)
+	at org.jboss.resteasy.core.ResourceMethodInvoker.invokeOnTargetAfterFilter(ResourceMethodInvoker.java:452)
+	at org.jboss.resteasy.core.ResourceMethodInvoker.lambda$invokeOnTarget$2(ResourceMethodInvoker.java:413)
+	at org.jboss.resteasy.core.interception.jaxrs.PreMatchContainerRequestContext.filter(PreMatchContainerRequestContext.java:321)
+	at org.jboss.resteasy.core.ResourceMethodInvoker.invokeOnTarget(ResourceMethodInvoker.java:415)
+	at org.jboss.resteasy.core.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:378)
+	at org.jboss.resteasy.core.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:356)
+	at org.jboss.resteasy.core.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:70)
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:429)
+	at org.jboss.resteasy.core.SynchronousDispatcher.lambda$invoke$4(SynchronousDispatcher.java:240)
+	at org.jboss.resteasy.core.SynchronousDispatcher.lambda$preprocess$0(SynchronousDispatcher.java:154)
+	at org.jboss.resteasy.core.interception.jaxrs.PreMatchContainerRequestContext.filter(PreMatchContainerRequestContext.java:321)
+	at org.jboss.resteasy.core.SynchronousDispatcher.preprocess(SynchronousDispatcher.java:157)
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:229)
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:222)
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55)
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:51)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:792)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:223)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:119)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:690)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:356)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:870)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1762)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:35:11.026 ERROR [http-nio-8080-exec-2] org.jboss.resteasy.core.providerfactory.DefaultExceptionMapper.process RESTEASY002375: Error processing request GET /tukano/rest/users/ - tukano.api.rest.RestUsers.searchUsers
+	java.lang.ClassCastException: class com.azure.cosmos.util.CosmosPagedIterable cannot be cast to class java.util.List (com.azure.cosmos.util.CosmosPagedIterable is in unnamed module of loader org.apache.catalina.loader.ParallelWebappClassLoader @497eb58f; java.util.List is in module java.base of loader 'bootstrap')
+		at utils.CosmosDB.sql(CosmosDB.java:107)
+		at utils.DB.sql(DB.java:14)
+		at tukano.impl.JavaUsers.searchUsers(JavaUsers.java:139)
+		at tukano.impl.rest.RestUsersResource.searchUsers(RestUsersResource.java:41)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+		at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+		at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+		at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:154)
+		at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:118)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.internalInvokeOnTarget(ResourceMethodInvoker.java:560)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invokeOnTargetAfterFilter(ResourceMethodInvoker.java:452)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.lambda$invokeOnTarget$2(ResourceMethodInvoker.java:413)
+		at org.jboss.resteasy.core.interception.jaxrs.PreMatchContainerRequestContext.filter(PreMatchContainerRequestContext.java:321)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invokeOnTarget(ResourceMethodInvoker.java:415)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:378)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:356)
+		at org.jboss.resteasy.core.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:70)
+		at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:429)
+		at org.jboss.resteasy.core.SynchronousDispatcher.lambda$invoke$4(SynchronousDispatcher.java:240)
+		at org.jboss.resteasy.core.SynchronousDispatcher.lambda$preprocess$0(SynchronousDispatcher.java:154)
+		at org.jboss.resteasy.core.interception.jaxrs.PreMatchContainerRequestContext.filter(PreMatchContainerRequestContext.java:321)
+		at org.jboss.resteasy.core.SynchronousDispatcher.preprocess(SynchronousDispatcher.java:157)
+		at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:229)
+		at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:222)
+		at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55)
+		at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:51)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:792)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:223)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:119)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:690)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:356)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:870)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1762)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+		at java.base/java.lang.Thread.run(Thread.java:833)
+[reactor-http-epoll-2] INFO com.azure.cosmos.implementation.clienttelemetry.ClientTelemetry - Client is not on azure vm
+[reactor-http-epoll-2] WARN com.azure.cosmos.implementation.RxDocumentClientImpl - Initialized DocumentClient [1] with machineId[uuid:cf4ccbe1-1369-473c-999a-51c82e00285b] serviceEndpoint [https://cosmos60739.documents.azure.com:443/], connectionPolicy [ConnectionPolicy{httpNetworkRequestTimeout=PT1M, tcpNetworkRequestTimeout=PT5S, connectionMode=GATEWAY, maxConnectionPoolSize=1000, idleHttpConnectionTimeout=PT1M, idleTcpConnectionTimeout=PT0S, userAgentSuffix='', throttlingRetryOptions=RetryOptions{maxRetryAttemptsOnThrottledRequests=9, maxRetryWaitTime=PT30S}, endpointDiscoveryEnabled=true, preferredRegions=null, multipleWriteRegionsEnabled=true, proxyType=null, inetSocketProxyAddress=null, readRequestsFallbackEnabled=true, connectTimeout=PT5S, idleTcpEndpointTimeout=PT1H, maxConnectionsPerEndpoint=130, maxRequestsPerConnection=30, tcpConnectionEndpointRediscoveryEnabled=true, ioThreadPriority=5, ioThreadCountPerCoreFactor=2, tcpHealthCheckTimeoutDetectionEnabled=true, minConnectionPoolSizePerEndpoint=1, openConnectionsConcurrency=1, aggressiveWarmupConcurrency=6}], consistencyLevel [Session]
+02-Nov-2024 19:38:48.134 INFO [http-nio-8080-exec-11] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/tukano]
+02-Nov-2024 19:38:48.695 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [reactor-http-epoll-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ io.netty.channel.epoll.Native.epollWait(Native Method)
+ io.netty.channel.epoll.Native.epollWait(Native.java:220)
+ io.netty.channel.epoll.Native.epollWait(Native.java:213)
+ io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:308)
+ io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:365)
+ io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:994)
+ io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.700 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [reactor-http-epoll-2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ io.netty.channel.epoll.Native.epollWait(Native Method)
+ io.netty.channel.epoll.Native.epollWait(Native.java:220)
+ io.netty.channel.epoll.Native.epollWait(Native.java:213)
+ io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:308)
+ io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:365)
+ io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:994)
+ io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.721 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [reactor-http-epoll-3] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ io.netty.channel.epoll.Native.epollWait(Native Method)
+ io.netty.channel.epoll.Native.epollWait(Native.java:220)
+ io.netty.channel.epoll.Native.epollWait(Native.java:213)
+ io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:308)
+ io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:365)
+ io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:994)
+ io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.723 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [reactor-http-epoll-4] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ io.netty.channel.epoll.Native.epollWait(Native Method)
+ io.netty.channel.epoll.Native.epollWait(Native.java:220)
+ io.netty.channel.epoll.Native.epollWait(Native.java:213)
+ io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:308)
+ io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:365)
+ io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:994)
+ io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.724 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [reactor-http-epoll-5] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ io.netty.channel.epoll.Native.epollWait(Native Method)
+ io.netty.channel.epoll.Native.epollWait(Native.java:220)
+ io.netty.channel.epoll.Native.epollWait(Native.java:213)
+ io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:308)
+ io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:365)
+ io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:994)
+ io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.740 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [reactor-http-epoll-6] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ io.netty.channel.epoll.Native.epollWait(Native Method)
+ io.netty.channel.epoll.Native.epollWait(Native.java:220)
+ io.netty.channel.epoll.Native.epollWait(Native.java:213)
+ io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:308)
+ io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:365)
+ io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:994)
+ io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.751 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [cosmos-daemon-CpuMemoryMonitor[1]] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.776 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [boundedElastic-evictor-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.783 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [boundedElastic-evictor-2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.805 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [boundedElastic-evictor-3] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.807 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [boundedElastic-evictor-4] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.857 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [boundedElastic-evictor-5] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.860 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [boundedElastic-evictor-6] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.862 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [boundedElastic-evictor-7] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.886 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [cosmos-daemon-cosmos-global-endpoint-mgr[1]] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(AbstractQueuedSynchronizer.java:506)
+ java.base@17.0.5/java.util.concurrent.ForkJoinPool.unmanagedBlock(ForkJoinPool.java:3463)
+ java.base@17.0.5/java.util.concurrent.ForkJoinPool.managedBlock(ForkJoinPool.java:3434)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1623)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1170)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.888 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [cosmos-parallel-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(AbstractQueuedSynchronizer.java:506)
+ java.base@17.0.5/java.util.concurrent.ForkJoinPool.unmanagedBlock(ForkJoinPool.java:3463)
+ java.base@17.0.5/java.util.concurrent.ForkJoinPool.managedBlock(ForkJoinPool.java:3434)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1623)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1170)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:48.890 WARNING [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [tukano] appears to have started a thread named [cosmos-parallel-2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.5/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.5/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.5/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.5/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.5/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.5/java.lang.Thread.run(Thread.java:833)
+02-Nov-2024 19:38:49.063 SEVERE [http-nio-8080-exec-11] org.apache.catalina.loader.WebappClassLoaderBase.checkThreadLocalMapForLeaks The web application [tukano] created a ThreadLocal with key of type [java.lang.ThreadLocal] (value [java.lang.ThreadLocal@6e3c8b2c]) and a value of type [io.netty.util.internal.InternalThreadLocalMap] (value [io.netty.util.internal.InternalThreadLocalMap@3ea87f3]) but failed to remove it when the web application was stopped. Threads are going to be renewed over time to try and avoid a probable memory leak.
+02-Nov-2024 19:38:49.736 INFO [http-nio-8080-exec-11] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [/usr/local/tomcat/webapps/tukano.war]
+02-Nov-2024 19:38:54.521 INFO [http-nio-8080-exec-11] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+02-Nov-2024 19:38:54.873 INFO [http-nio-8080-exec-11] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [/usr/local/tomcat/webapps/tukano.war] has finished in [5,134] ms
+02-Nov-2024 19:39:02.442 INFO [http-nio-8080-exec-18] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002225: Deploying jakarta.ws.rs.core.Application: class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:39:02.520 INFO [http-nio-8080-exec-18] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002200: Adding class resource tukano.impl.rest.RestBlobsResource from Application class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:39:02.521 INFO [http-nio-8080-exec-18] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002200: Adding class resource tukano.impl.rest.RestShortsResource from Application class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:39:02.521 INFO [http-nio-8080-exec-18] org.jboss.resteasy.core.ResteasyDeploymentImpl.processApplication RESTEASY002200: Adding class resource tukano.impl.rest.RestUsersResource from Application class tukano.impl.rest.TukanoRestServer
+02-Nov-2024 19:39:02.950 INFO [http-nio-8080-exec-18] tukano.impl.JavaUsers.searchUsers searchUsers : patterns = null
+
+[http-nio-8080-exec-18] WARN com.azure.cosmos.implementation.Utils - Neither Afterburner nor Blackbird Jackson module loaded.  Consider adding one to your classpath for maximum Jackson performance.
+[http-nio-8080-exec-18] WARN com.azure.cosmos.implementation.Utils - Neither Afterburner nor Blackbird Jackson module loaded.  Consider adding one to your classpath for maximum Jackson performance.
+[http-nio-8080-exec-18] INFO com.azure.cosmos.implementation.RxDocumentClientImpl - Initializing DocumentClient [1] with serviceEndpoint [https://cosmos60739.documents.azure.com:443/], connectionPolicy [ConnectionPolicy{httpNetworkRequestTimeout=PT1M, tcpNetworkRequestTimeout=PT5S, connectionMode=GATEWAY, maxConnectionPoolSize=1000, idleHttpConnectionTimeout=PT1M, idleTcpConnectionTimeout=PT0S, userAgentSuffix='', throttlingRetryOptions=RetryOptions{maxRetryAttemptsOnThrottledRequests=9, maxRetryWaitTime=PT30S}, endpointDiscoveryEnabled=true, preferredRegions=null, multipleWriteRegionsEnabled=true, proxyType=null, inetSocketProxyAddress=null, readRequestsFallbackEnabled=true, connectTimeout=PT5S, idleTcpEndpointTimeout=PT1H, maxConnectionsPerEndpoint=130, maxRequestsPerConnection=30, tcpConnectionEndpointRediscoveryEnabled=true, ioThreadPriority=5, ioThreadCountPerCoreFactor=2, tcpHealthCheckTimeoutDetectionEnabled=true, minConnectionPoolSizePerEndpoint=1, openConnectionsConcurrency=1, aggressiveWarmupConcurrency=6}], consistencyLevel [Session]
+[http-nio-8080-exec-18] INFO com.azure.cosmos.implementation.http.SharedGatewayHttpClient - creating a new shared HttpClient
+[cosmos-parallel-1] INFO com.azure.cosmos.implementation.RxDocumentClientImpl - Getting database account endpoint from https://cosmos60739.documents.azure.com:443/
+[reactor-http-epoll-1] INFO com.azure.cosmos.implementation.GlobalEndpointManager - db account retrieved {"_self":"","id":"cosmos60739","_rid":"cosmos60739.documents.azure.com","media":"//media/","addresses":"//addresses/","_dbs":"//dbs/","writableLocations":[{"name":"North Europe","databaseAccountEndpoint":"https://cosmos60739-northeurope.documents.azure.com:443/"}],"readableLocations":[{"name":"North Europe","databaseAccountEndpoint":"https://cosmos60739-northeurope.documents.azure.com:443/"}],"enableMultipleWriteLocations":false,"continuousBackupEnabled":false,"enableNRegionSynchronousCommit":false,"userReplicationPolicy":{"asyncReplication":false,"minReplicaSetSize":3,"maxReplicasetSize":4},"userConsistencyPolicy":{"defaultConsistencyLevel":"Session"},"systemReplicationPolicy":{"minReplicaSetSize":3,"maxReplicasetSize":4},"readPolicy":{"primaryReadCoefficient":1,"secondaryReadCoefficient":1},"queryEngineConfiguration":"{\"allowNewKeywords\":true,\"maxJoinsPerSqlQuery\":10,\"maxQueryRequestTimeoutFraction\":0.9,\"maxSqlQueryInputLength\":524288,\"maxUdfRefPerSqlQuery\":10,\"queryMaxInMemorySortDocumentCount\":-1000,\"spatialMaxGeometryPointCount\":256,\"sqlAllowNonFiniteNumbers\":false,\"sqlDisableOptimizationFlags\":0,\"sqlQueryILDisableOptimizationFlags\":0,\"clientDisableOptimisticDirectExecution\":false,\"enableSpatialIndexing\":true,\"maxInExpressionItemsCount\":2147483647,\"maxLogicalAndPerSqlQuery\":2147483647,\"maxLogicalOrPerSqlQuery\":2147483647,\"maxSpatialQueryCells\":2147483647,\"sqlAllowAggregateFunctions\":true,\"sqlAllowGroupByClause\":true,\"sqlAllowLike\":true,\"sqlAllowSubQuery\":true,\"sqlAllowScalarSubQuery\":true,\"sqlAllowTop\":true}"}
+[http-nio-8080-exec-18] WARN com.azure.cosmos.CosmosClientBuilder - Cosmos Client with (Correlation) ID [00001] started up in [2428] ms with the following configuration: serviceEndpoint [https://cosmos60739.documents.azure.com:443/], preferredRegions [[]], excludedRegions [[]], connectionPolicy [ConnectionPolicy{httpNetworkRequestTimeout=PT1M, tcpNetworkRequestTimeout=PT5S, connectionMode=GATEWAY, maxConnectionPoolSize=1000, idleHttpConnectionTimeout=PT1M, idleTcpConnectionTimeout=PT0S, userAgentSuffix='', throttlingRetryOptions=RetryOptions{maxRetryAttemptsOnThrottledRequests=9, maxRetryWaitTime=PT30S}, endpointDiscoveryEnabled=true, preferredRegions=null, multipleWriteRegionsEnabled=true, proxyType=null, inetSocketProxyAddress=null, readRequestsFallbackEnabled=true, connectTimeout=PT5S, idleTcpEndpointTimeout=PT1H, maxConnectionsPerEndpoint=130, maxRequestsPerConnection=30, tcpConnectionEndpointRediscoveryEnabled=true, ioThreadPriority=5, ioThreadCountPerCoreFactor=2, tcpHealthCheckTimeoutDetectionEnabled=true, minConnectionPoolSizePerEndpoint=1, openConnectionsConcurrency=1, aggressiveWarmupConcurrency=6}], consistencyLevel [Session], contentResponseOnWriteEnabled [true], sessionCapturingOverride [false], connectionSharingAcrossClients [true], clientTelemetryEnabled [false], proactiveContainerInit [null], diagnostics [{samplingRate=1.0, thresholds={pointOperationLatencyThreshold=PT1S, nonPointOperationLatencyThreshold=PT3S, requestChargeThreshold=1000.0, payloadSizeInBytesThreshold=2147483647, customFailureHandler=false}, clientCorrelationId=null, clientTelemetryEnabled=false, clientMetricsEnabled=true, transportLevelTracingEnabled=false, showQueryMode=None, customTracerProvided=false, customDiagnosticHandlers=()}], tracing [true, false, com.azure.cosmos.implementation.DiagnosticsProvider.EnabledNoOpTracer, [com.azure.cosmos.implementation.clienttelemetry.ClientMetricsDiagnosticsHandler]], nativeTransport [true] fastClientOpen [true] isRegionScopedSessionCapturingEnabled [false]
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$CosmosDB initialized$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+COSMOS DB KEY = iuN0ehTm64McI6tW64efnus9lFzbNHE5l0glpUdVdDaPukjvbcO1lQExhGaPb17zkAwVTNdWBOcBACDb0vSDqA==
+[reactor-http-epoll-3] INFO com.azure.cosmos.implementation.SessionContainer - Registering a new collection resourceId [3P5aAL+n1Zs=] in SessionTokens
+[reactor-http-epoll-2] INFO com.azure.cosmos.implementation.clienttelemetry.ClientTelemetry - Client is not on azure vm
+[reactor-http-epoll-2] WARN com.azure.cosmos.implementation.RxDocumentClientImpl - Initialized DocumentClient [1] with machineId[uuid:2778ac5a-1f28-40e4-94f1-3fde8d77b7fc] serviceEndpoint [https://cosmos60739.documents.azure.com:443/], connectionPolicy [ConnectionPolicy{httpNetworkRequestTimeout=PT1M, tcpNetworkRequestTimeout=PT5S, connectionMode=GATEWAY, maxConnectionPoolSize=1000, idleHttpConnectionTimeout=PT1M, idleTcpConnectionTimeout=PT0S, userAgentSuffix='', throttlingRetryOptions=RetryOptions{maxRetryAttemptsOnThrottledRequests=9, maxRetryWaitTime=PT30S}, endpointDiscoveryEnabled=true, preferredRegions=null, multipleWriteRegionsEnabled=true, proxyType=null, inetSocketProxyAddress=null, readRequestsFallbackEnabled=true, connectTimeout=PT5S, idleTcpEndpointTimeout=PT1H, maxConnectionsPerEndpoint=130, maxRequestsPerConnection=30, tcpConnectionEndpointRediscoveryEnabled=true, ioThreadPriority=5, ioThreadCountPerCoreFactor=2, tcpHealthCheckTimeoutDetectionEnabled=true, minConnectionPoolSizePerEndpoint=1, openConnectionsConcurrency=1, aggressiveWarmupConcurrency=6}], consistencyLevel [Session]
+[cosmos-parallel-2] INFO com.azure.cosmos.implementation.RxDocumentClientImpl - Getting database account endpoint from https://cosmos60739.documents.azure.com:443/
+[reactor-http-epoll-3] INFO com.azure.cosmos.implementation.GlobalEndpointManager - db account retrieved {"_self":"","id":"cosmos60739","_rid":"cosmos60739.documents.azure.com","media":"//media/","addresses":"//addresses/","_dbs":"//dbs/","writableLocations":[{"name":"North Europe","databaseAccountEndpoint":"https://cosmos60739-northeurope.documents.azure.com:443/"}],"readableLocations":[{"name":"North Europe","databaseAccountEndpoint":"https://cosmos60739-northeurope.documents.azure.com:443/"}],"enableMultipleWriteLocations":false,"continuousBackupEnabled":false,"enableNRegionSynchronousCommit":false,"userReplicationPolicy":{"asyncReplication":false,"minReplicaSetSize":3,"maxReplicasetSize":4},"userConsistencyPolicy":{"defaultConsistencyLevel":"Session"},"systemReplicationPolicy":{"minReplicaSetSize":3,"maxReplicasetSize":4},"readPolicy":{"primaryReadCoefficient":1,"secondaryReadCoefficient":1},"queryEngineConfiguration":"{\"allowNewKeywords\":true,\"maxJoinsPerSqlQuery\":10,\"maxQueryRequestTimeoutFraction\":0.9,\"maxSqlQueryInputLength\":524288,\"maxUdfRefPerSqlQuery\":10,\"queryMaxInMemorySortDocumentCount\":-1000,\"spatialMaxGeometryPointCount\":256,\"sqlAllowNonFiniteNumbers\":false,\"sqlDisableOptimizationFlags\":0,\"sqlQueryILDisableOptimizationFlags\":0,\"clientDisableOptimisticDirectExecution\":false,\"enableSpatialIndexing\":true,\"maxInExpressionItemsCount\":2147483647,\"maxLogicalAndPerSqlQuery\":2147483647,\"maxLogicalOrPerSqlQuery\":2147483647,\"maxSpatialQueryCells\":2147483647,\"sqlAllowAggregateFunctions\":true,\"sqlAllowGroupByClause\":true,\"sqlAllowLike\":true,\"sqlAllowSubQuery\":true,\"sqlAllowScalarSubQuery\":true,\"sqlAllowTop\":true}"}
