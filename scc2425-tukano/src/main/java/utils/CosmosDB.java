@@ -18,9 +18,9 @@ import tukano.api.Result;
 import tukano.api.Result.ErrorCode;
 
 public class CosmosDB {
-    private static final String COSMOS_DB_ENDPOINT = "https://scc242560973.documents.azure.com:443/";
+    private static final String COSMOS_DB_ENDPOINT = "";
     private static final String COSMOS_DB_KEY = "";
-    private static final String DATABASE_NAME = "scc242560973";
+    private static final String DATABASE_NAME = "";
 
     private CosmosClient cosmosClient;
     private CosmosDatabase cosmosDatabase;
