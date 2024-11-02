@@ -42,9 +42,6 @@ public class CosmosDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-       // if(cosmosClient == null)
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$CosmosDB initialized$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n"+
-                                "COSMOS DB KEY = "+COSMOS_DB_KEY);
     }
 
     synchronized public static CosmosDB getInstance() {
