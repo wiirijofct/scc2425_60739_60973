@@ -9,6 +9,7 @@ import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import jakarta.ws.rs.core.Application;
+import tukano.impl.Token;
 import utils.IP;
 import utils.Props;
 
@@ -38,6 +39,7 @@ public class TukanoRestServer extends Application{
 		resources.add(RestShortsResource.class);
 
 		Props.load(PROPS_FILE);
+		Token.setSecret(Props.get("secret", "lol123"));
 	}
 
 

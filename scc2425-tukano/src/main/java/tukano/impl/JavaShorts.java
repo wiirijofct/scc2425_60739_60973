@@ -89,9 +89,12 @@ public class JavaShorts implements Shorts {
 			}
 		}
 
-		var query = format("SELECT count(*) FROM Likes l WHERE l.shortId = '%s'", shortId);
-		var likes = DB.sql(query, Long.class);
-		return errorOrValue(getOne(shortId, Short.class), shrt -> shrt.copyWithLikes_And_Token(likes.get(0)));
+		String query = format("SELECT VALUE COUNT(1) FROM c WHERE c.shortId = '%s' AND c.type = 'like'", shortId);
+		List<Integer> likesList = DB.sql(query, Integer.class);
+
+		int likesCount = likesList.isEmpty() ? 0 : likesList.get(0);
+
+		return errorOrValue(getOne(shortId, Short.class), shrt -> shrt.copyWithLikes_And_Token(likesCount));
 	}
 
 	@Override
@@ -122,11 +125,10 @@ public class JavaShorts implements Shorts {
 
 					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
 						var key = "shorts:" + shortId;
-						if(jedis.exists(key)) {
+						if (jedis.exists(key)) {
 							jedis.del(key);
 						}
 					}
-					
 
 					JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get());
 					return Result.ok();
@@ -245,7 +247,7 @@ public class JavaShorts implements Shorts {
 				}
 				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
 					var key = "shorts:" + shortObj.getShortId();
-					if(jedis.exists(key)) {
+					if (jedis.exists(key)) {
 						jedis.del(key);
 					}
 				}

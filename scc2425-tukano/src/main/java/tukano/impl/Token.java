@@ -22,6 +22,8 @@ public class Token {
 	}
 	
 	public static String get(String id) {
+		System.out.println("################# \n\n\n\n id: " + id + "\n\n\n\n\n");
+		System.out.println("################# \n\n\n\n secret: " + secret + "\n\n\n\n\n");
 		var timestamp = System.currentTimeMillis();
 		var signature = Hash.of(id, timestamp, secret);
 		return String.format("%s%s%s", timestamp, DELIMITER, signature);

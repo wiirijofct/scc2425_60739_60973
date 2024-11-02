@@ -139,6 +139,10 @@ public class CosmosDB {
         switch (clazz.getSimpleName()) {
             case "User" -> containerName = "users";
             case "Short" -> containerName = "shorts";
+            case "Likes" -> containerName = "shorts";
+            case "Following" -> containerName = "shorts";
+            case "Integer" -> containerName = "shorts";
+            case "String" -> containerName = "shorts";
             default -> throw new IllegalArgumentException("Unknown class: " + clazz.getName());
         }
 
