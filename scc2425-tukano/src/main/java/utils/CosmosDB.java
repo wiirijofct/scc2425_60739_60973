@@ -19,7 +19,7 @@ import tukano.api.Result.ErrorCode;
 
 public class CosmosDB {
     private static final String COSMOS_DB_ENDPOINT = "https://scc242560973.documents.azure.com:443/";
-    private static final String COSMOS_DB_KEY = "7j4zhfI1iLcJpn7DVF91UOOJfVJKlpNvjN28YQ1dkmgic2292NdITRKApkMdVtactQ7MlzyDPgu1ACDbnywuRg==";
+    private static final String COSMOS_DB_KEY = "";
     private static final String DATABASE_NAME = "scc242560973";
 
     private CosmosClient cosmosClient;
