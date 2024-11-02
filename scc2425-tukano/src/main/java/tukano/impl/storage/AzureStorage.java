@@ -11,13 +11,14 @@ import com.azure.storage.blob.BlobContainerClientBuilder;
 import com.azure.storage.blob.models.BlobStorageException;
 
 import tukano.api.Result;
+import utils.Props;
 
 public class AzureStorage implements BlobStorage {
 
     private static Logger Log = Logger.getLogger(AzureStorage.class.getName());
 
     // this is hardcoded for now, should be in a config file or env variable
-    String storageConnectionString = "secret";
+    private static final String storageConnectionString = Props.get("BlobStoreConnection", "error?");
 
     BlobContainerClient containerClient = new BlobContainerClientBuilder()
 		.connectionString(storageConnectionString)

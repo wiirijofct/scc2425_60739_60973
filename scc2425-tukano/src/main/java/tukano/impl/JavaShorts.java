@@ -141,7 +141,7 @@ public class JavaShorts implements Shorts {
 	public Result<List<String>> getShorts(String userId) {
 		Log.info(() -> format("getShorts : userId = %s\n", userId));
 
-		var query = format("SELECT s.shortId FROM Short s WHERE s.ownerId = '%s'", userId);
+		var query = format("SELECT VALUE c.shortId FROM c WHERE c.ownerId = '%s'", userId);
 		return errorOrValue(okUser(userId), DB.sql(query, String.class));
 	}
 
@@ -221,7 +221,7 @@ public class JavaShorts implements Shorts {
 		if (!Token.isValid(token, userId))
 			return error(FORBIDDEN);
 
-		return DB.transaction((hibernate) -> {
+		return DB.transaction((cosmos) -> {
 
 			// //delete shorts
 			// var query1 = format("DELETE Short s WHERE s.ownerId = '%s'", userId);
