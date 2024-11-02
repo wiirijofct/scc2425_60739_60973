@@ -21,6 +21,8 @@ public class TukanoRestServer extends Application{
 	static final String INETADDR_ANY = "0.0.0.0";
 	static String SERVER_BASE_URI = "http://%s:%s/rest";
 
+	static final String PROPS_FILE = "azurekeys-region.props";
+
 	public static final int PORT = 8080;
 
 	public static String serverURI;
@@ -36,6 +38,8 @@ public class TukanoRestServer extends Application{
 		resources.add(RestBlobsResource.class);
 		resources.add(RestUsersResource.class);
 		resources.add(RestShortsResource.class);
+
+		Props.load(PROPS_FILE);
 	}
 
 

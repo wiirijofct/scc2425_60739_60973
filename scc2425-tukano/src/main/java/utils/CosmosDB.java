@@ -18,9 +18,9 @@ import tukano.api.Result;
 import tukano.api.Result.ErrorCode;
 
 public class CosmosDB {
-    private static final String COSMOS_DB_ENDPOINT = "";
-    private static final String COSMOS_DB_KEY = "";
-    private static final String DATABASE_NAME = "";
+    private static final String COSMOS_DB_ENDPOINT = Props.get("COSMOSDB_URL", "error?");
+    private static final String COSMOS_DB_KEY = Props.get("COSMOSDB_KEY", "error?");
+    private static final String DATABASE_NAME = Props.get("COSMOSDB_DATABASE", "error?");;
 
     private CosmosClient cosmosClient;
     private CosmosDatabase cosmosDatabase;
@@ -42,9 +42,9 @@ public class CosmosDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(cosmosClient != null)
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$CosmosDB initialized$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            
+       // if(cosmosClient == null)
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$CosmosDB initialized$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n"+
+                                "COSMOS DB KEY = "+COSMOS_DB_KEY);
     }
 
     synchronized public static CosmosDB getInstance() {
