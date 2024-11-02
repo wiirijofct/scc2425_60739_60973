@@ -51,6 +51,7 @@ public class JavaShorts implements Shorts {
 			var shortId = format("%s+%s", userId, UUID.randomUUID());
 			var blobUrl = format("%s/%s/%s", TukanoRestServer.serverURI, Blobs.NAME, shortId);
 			var shrt = new Short(shortId, userId, blobUrl);
+			shrt.setId(shortId);
 
 			var insertResult = DB.insertOne(shrt);
 			if (!insertResult.isOK()) {
