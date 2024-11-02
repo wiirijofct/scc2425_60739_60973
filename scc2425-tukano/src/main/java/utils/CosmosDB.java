@@ -18,9 +18,12 @@ import tukano.api.Result;
 import tukano.api.Result.ErrorCode;
 
 public class CosmosDB {
+    // private static final String COSMOS_DB_ENDPOINT = System.getenv("COSMOSDB_URL");
+    // private static final String COSMOS_DB_KEY = System.getenv("COSMOSDB_KEY");
+    // private static final String DATABASE_NAME = System.getenv("COSMOSDB_DATABASE");
     private static final String COSMOS_DB_ENDPOINT = Props.get("COSMOSDB_URL", "error?");
     private static final String COSMOS_DB_KEY = Props.get("COSMOSDB_KEY", "error?");
-    private static final String DATABASE_NAME = Props.get("COSMOSDB_DATABASE", "error?");;
+    private static final String DATABASE_NAME = Props.get("COSMOSDB_DATABASE", "error?");
 
     private CosmosClient cosmosClient;
     private CosmosDatabase cosmosDatabase;
