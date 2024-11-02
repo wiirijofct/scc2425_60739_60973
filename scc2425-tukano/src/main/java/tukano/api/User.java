@@ -7,20 +7,29 @@ import jakarta.persistence.Id;
 public class User {
 	
 	@Id
+	private String id;
 	private String userId;
 	private String pwd;
 	private String email;	
 	private String displayName;
 
+
 	public User() {}
 	
 	public User(String userId, String pwd, String email, String displayName) {
+		this.id = userId;
 		this.pwd = pwd;
 		this.email = email;
 		this.userId = userId;
 		this.displayName = displayName;
 	}
 
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -45,7 +54,9 @@ public class User {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
-	
+	public String id() {
+		return id;
+	}
 	public String userId() {
 		return userId;
 	}
@@ -64,7 +75,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", pwd=" + pwd + ", email=" + email + ", displayName=" + displayName + "]";
+		return "User [userId=" + userId + ", id=" + id + ", pwd=" + pwd + ", email=" + email + ", displayName=" + displayName + "]";
 	}
 	
 	public User copyWithoutPassword() {

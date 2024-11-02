@@ -31,7 +31,7 @@ public class TukanoRestServer extends Application{
 		System.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s");
 	}
 	
-	protected TukanoRestServer() {
+	public TukanoRestServer() {
 		serverURI = String.format(SERVER_BASE_URI, IP.hostname(), PORT);
 		resources.add(RestBlobsResource.class);
 		resources.add(RestUsersResource.class);
@@ -52,6 +52,15 @@ public class TukanoRestServer extends Application{
 		Log.info(String.format("Tukano Server ready @ %s\n",  serverURI));
 	}
 	
+	@Override
+	public Set<Class<?>> getClasses() {
+		return resources;
+	}
+
+	@Override
+	public Set<Object> getSingletons() {
+		return singletons;
+	}
 	
 // 	public static void main(String[] args) throws Exception {
 // 		Args.use(args);

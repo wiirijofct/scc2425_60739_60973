@@ -18,9 +18,9 @@ import tukano.api.Result;
 import tukano.api.Result.ErrorCode;
 
 public class CosmosDB {
-    private static final String COSMOS_DB_ENDPOINT = "https://scc242560739.documents.azure.com:443/";
-    private static final String COSMOS_DB_KEY = "secret";
-    private static final String DATABASE_NAME = "tukano60739";
+    private static final String COSMOS_DB_ENDPOINT = "https://scc242560973.documents.azure.com:443/";
+    private static final String COSMOS_DB_KEY = "7j4zhfI1iLcJpn7DVF91UOOJfVJKlpNvjN28YQ1dkmgic2292NdITRKApkMdVtactQ7MlzyDPgu1ACDbnywuRg==";
+    private static final String DATABASE_NAME = "scc242560973";
 
     private CosmosClient cosmosClient;
     private CosmosDatabase cosmosDatabase;
@@ -31,7 +31,8 @@ public class CosmosDB {
             cosmosClient = new CosmosClientBuilder()
                     .endpoint(COSMOS_DB_ENDPOINT)
                     .key(COSMOS_DB_KEY)
-                    .directMode()
+                    //.directMode()
+                    .gatewayMode()
                     .consistencyLevel(ConsistencyLevel.SESSION)
                     .connectionSharingAcrossClientsEnabled(true)
                     .contentResponseOnWriteEnabled(true)
@@ -41,6 +42,9 @@ public class CosmosDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if(cosmosClient != null)
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$CosmosDB initialized$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            
     }
 
     synchronized public static CosmosDB getInstance() {

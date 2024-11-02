@@ -17,6 +17,7 @@ import tukano.impl.Token;
 public class Short {
 	
 	@Id
+	String id;
 	String shortId;
 	String ownerId;
 	String blobUrl;
@@ -27,6 +28,7 @@ public class Short {
 	
 	public Short(String shortId, String ownerId, String blobUrl, long timestamp, int totalLikes) {
 		super();
+		this.id = shortId;
 		this.shortId = shortId;
 		this.ownerId = ownerId;
 		this.blobUrl = blobUrl;
