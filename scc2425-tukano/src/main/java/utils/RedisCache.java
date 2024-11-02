@@ -4,8 +4,8 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class RedisCache {
-	private static final String RedisHostname = Props.get("REDIS_NAME", String.class);
-	private static final String RedisKey = Props.get("REDIS_KEY", String.class);
+	private static final String RedisHostname = Props.get("REDIS_URL", "error?");
+	private static final String RedisKey = Props.get("REDIS_KEY", "error?");
 	private static final int REDIS_PORT = 6380;
 	private static final int REDIS_TIMEOUT = 1000;
 	private static final boolean Redis_USE_TLS = true;
