@@ -100,5 +100,11 @@ public class FilesystemStorage implements BlobStorage {
 		return res;
 	}
 
+	@Override
+	public Result<Void> deleteAllBlobsWithPrefix(String userId) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'deleteAllBlobsWithPrefix'");
+	}
+
 	
 }

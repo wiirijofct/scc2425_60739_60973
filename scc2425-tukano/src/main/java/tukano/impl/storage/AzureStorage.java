@@ -8,7 +8,9 @@ import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobContainerClientBuilder;
+import com.azure.storage.blob.models.BlobItem;
 import com.azure.storage.blob.models.BlobStorageException;
+import com.azure.storage.blob.models.ListBlobsOptions;
 
 import tukano.api.Result;
 import utils.Props;
@@ -48,6 +50,8 @@ public class AzureStorage implements BlobStorage {
     @Override
     public Result<Void> delete(String path) {
 
+        System.out.println("deleting blob: " + path);
+
         try {
             BlobClient blobClient = containerClient.getBlobClient(path);
             blobClient.delete();
@@ -60,6 +64,25 @@ public class AzureStorage implements BlobStorage {
             return Result.error(Result.ErrorCode.INTERNAL_ERROR);
         }
     }
+
+    @Override
+    public Result<Void> deleteAllBlobsWithPrefix(String prefix) {
+        try {
+            for (BlobItem blobItem : containerClient.listBlobs(new ListBlobsOptions().setPrefix(prefix), null)) {
+                BlobClient blobClient = containerClient.getBlobClient(blobItem.getName());
+                blobClient.delete();
+                Log.info(() -> String.format("Deleted blob: %s", blobItem.getName()));
+            }
+            return Result.ok();
+        } catch (BlobStorageException e) {
+            Log.log(Level.SEVERE, "Error deleting blobs from Azure Storage: {0}", e.getMessage());
+            return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+        } catch (Exception e) {
+            Log.log(Level.SEVERE, "Error deleting blobs from Azure Storage: {0}", e.getMessage());
+            return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+        }
+    }
+
 
     @Override
     public Result<byte[]> read(String path) {

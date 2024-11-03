@@ -14,4 +14,6 @@ public interface BlobStorage {
 
 	public Result<Void> read(String path, Consumer<byte[]> sink);
 
+    public Result<Void> deleteAllBlobsWithPrefix(String userId);
+
 }

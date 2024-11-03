@@ -1,8 +1,7 @@
 package tukano.impl;
 
 import static java.lang.String.format;
-
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -96,7 +95,7 @@ public class JavaShorts implements Shorts {
 				likesCount = value.size();
 			}
 		}
-		//If cant get short from cache, get it from the database
+		// If cant get short from cache, get it from the database
 		if (shrtResult == null)
 			shrtResult = getOne(shortId, Short.class);
 
@@ -106,7 +105,7 @@ public class JavaShorts implements Shorts {
 			List<Integer> likesList = DB.sql(query, Integer.class);
 			likesCount = likesList.isEmpty() ? 0 : likesList.get(0);
 		}
-		
+
 		// Needed to avoid the final modifier error
 		int finalLikesCount = likesCount;
 
@@ -168,14 +167,14 @@ public class JavaShorts implements Shorts {
 				isFollowing, password));
 
 		return errorOrResult(okUser(userId1, password), user -> {
-			var f = new Following(userId1, userId2, userId1+userId2);
-			return errorOrVoid(okUser(userId2), usr ->{
+			var f = new Following(userId1, userId2, userId1 + userId2);
+			return errorOrVoid(okUser(userId2), usr -> {
 				var result = isFollowing ? DB.insertOne(f) : DB.deleteOne(f);
-				if(result.isOK()) {
+				if (result.isOK()) {
 					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
 						var key = FOLLOWS_PREFIX + userId2;
-						if(jedis.exists(key)) {
-							if(isFollowing)
+						if (jedis.exists(key)) {
+							if (isFollowing)
 								jedis.lpush(key, userId2);
 							else
 								jedis.lrem(key, 1, userId1);
@@ -217,8 +216,8 @@ public class JavaShorts implements Shorts {
 				if (result.isOK()) {
 					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
 						var key = LIKES_PREFIX + shortId;
-						if(jedis.exists(key))
-							if(isLiked)
+						if (jedis.exists(key))
+							if (isLiked)
 								jedis.lpush(key, userId);
 							else
 								jedis.lrem(key, 1, userId);
@@ -242,10 +241,11 @@ public class JavaShorts implements Shorts {
 		final List<String> finalLikeList = likeList;
 		return errorOrResult(getShort(shortId), shrt -> {
 			return errorOrValue(okUser(shrt.getOwnerId(), password), usr -> {
-				if(!finalLikeList.isEmpty())
+				if (!finalLikeList.isEmpty())
 					return finalLikeList;
 				var query = format("SELECT VALUE c.userId FROM c WHERE c.shortId = '%s' AND c.type = 'like'", shortId);
-				//var query = format("SELECT l.userId FROM Likes l WHERE l.shortId = '%s'", shortId);
+				// var query = format("SELECT l.userId FROM Likes l WHERE l.shortId = '%s'",
+				// shortId);
 				return DB.sql(query, String.class);
 			});
 		});
@@ -281,64 +281,98 @@ public class JavaShorts implements Shorts {
 	@Override
 	public Result<Void> deleteAllShorts(String userId, String password, String token) {
 		Log.info(() -> format("deleteAllShorts : userId = %s, password = %s, token = %s\n", userId, password, token));
-
+	
 		if (!Token.isValid(token, userId))
 			return error(FORBIDDEN);
-
+	
 		return DB.transaction((cosmos) -> {
-
-			// //delete shorts
-			// var query1 = format("DELETE Short s WHERE s.ownerId = '%s'", userId);
-			// //hibernate.createQuery(query1, Short.class).executeUpdate();
-
-			// //delete follows
-			// var query2 = format("DELETE Following f WHERE f.follower = '%s' OR f.followee
-			// = '%s'", userId, userId);
-			// //hibernate.createQuery(query2, Following.class).executeUpdate();
-
-			// //delete likes
-			// var query3 = format("DELETE Likes l WHERE l.ownerId = '%s' OR l.userId =
-			// '%s'", userId, userId);
-			// //hibernate.createQuery(query3, Likes.class).executeUpdate();
-
-			// delete shorts
+			List<String> errors = new ArrayList<>();
+	
+			// Delete shorts
 			String deleteShortsQuery = format("SELECT * FROM c WHERE c.ownerId = '%s'", userId);
 			List<Short> shortsList = DB.sql(deleteShortsQuery, Short.class);
-			for (Short shortObj : shortsList) {
-				Result<Short> deleteShortRes = DB.deleteOne(shortObj);
-				if (deleteShortRes.error() != null) {
-					return Result.error(deleteShortRes.error());
-				}
-				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-					var key = "shorts:" + shortObj.getShortId();
-					if (jedis.exists(key)) {
-						jedis.del(key);
+	
+			List<Short> shortsToDelete = new ArrayList<>(shortsList);
+			Log.info(() -> "shortsToDelete: " + shortsToDelete);
+	
+			for (Short shortObj : shortsToDelete) {
+				try {
+					Result<Short> deleteShortRes = DB.deleteOne(shortObj);
+					if (!deleteShortRes.isOK()) {
+						String errorMessage = format("Error deleting short %s: %s", shortObj.getShortId(), deleteShortRes.error());
+						Log.severe(() -> errorMessage);
+						errors.add(errorMessage);
+					} else {
+						try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+							var key = "shorts:" + shortObj.getShortId();
+							if (jedis.exists(key)) {
+								jedis.del(key);
+							}
+						} catch (Exception e) {
+							String redisError = format("Error deleting short from Redis with ID: %s, Exception: %s", shortObj.getShortId(), e.getMessage());
+							Log.severe(() -> redisError);
+							errors.add(redisError);
+						}
 					}
+				} catch (Exception e) {
+					String errorMessage = format("Exception while deleting short with ID: %s, Exception: %s", shortObj.getShortId(), e.getMessage());
+					Log.severe(() -> errorMessage);
+					errors.add(errorMessage);
 				}
 			}
-			// delete follows
+	
+			Log.info("Finished deleting shorts");
+	
+			// Delete follows
 			String deleteFollowsQuery = format(
-					"SELECT * FROM c WHERE c.follower = '%s' OR c.followee = '%s' AND c.type ='following'", userId,
-					userId);
+				"SELECT * FROM c WHERE c.follower = '%s' OR c.followee = '%s' AND c.type ='following'", userId, userId);
 			List<Following> followsList = DB.sql(deleteFollowsQuery, Following.class);
+	
 			for (Following follow : followsList) {
-				Result<Following> deleteFollowRes = DB.deleteOne(follow);
-				if (deleteFollowRes.error() != null) {
-					return Result.error(deleteFollowRes.error());
+				try {
+					Result<Following> deleteFollowRes = DB.deleteOne(follow);
+					if (!deleteFollowRes.isOK()) {
+						String errorMessage = format("Error deleting follow %s: %s", follow.getId(), deleteFollowRes.error());
+						Log.severe(() -> errorMessage);
+						errors.add(errorMessage);
+					}
+				} catch (Exception e) {
+					String errorMessage = format("Exception while deleting follow with ID: %s, Exception: %s", follow.getId(), e.getMessage());
+					Log.severe(() -> errorMessage);
+					errors.add(errorMessage);
 				}
 			}
-			// delete likes
+	
+			Log.info("Finished deleting follows");
+	
+			// Delete likes
 			String deleteLikesQuery = format("SELECT * FROM c WHERE c.userId = '%s' AND c.type = 'like'", userId);
 			List<Likes> likesList = DB.sql(deleteLikesQuery, Likes.class);
+	
 			for (Likes like : likesList) {
-				Result<Likes> deleteLikeRes = DB.deleteOne(like);
-				if (deleteLikeRes.error() != null) {
-					return Result.error(deleteLikeRes.error());
+				try {
+					Result<Likes> deleteLikeRes = DB.deleteOne(like);
+					if (!deleteLikeRes.isOK()) {
+						String errorMessage = format("Error deleting like %s: %s", like.getUserId(), deleteLikeRes.error());
+						Log.severe(() -> errorMessage);
+						errors.add(errorMessage);
+					}
+				} catch (Exception e) {
+					String errorMessage = format("Exception while deleting like with ID: %s, Exception: %s", like.getUserId(), e.getMessage());
+					Log.severe(() -> errorMessage);
+					errors.add(errorMessage);
 				}
 			}
+	
+			Log.info("Finished deleting likes");
+	
+			if (!errors.isEmpty()) {
+				Log.severe(() -> "Errors occurred during deletion: " + errors);
+				return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+			}
+	
 			return Result.ok();
-
 		});
 	}
-
+	
 }
