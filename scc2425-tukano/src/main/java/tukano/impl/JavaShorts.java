@@ -1,6 +1,8 @@
 package tukano.impl;
 
 import static java.lang.String.format;
+
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -32,7 +34,12 @@ public class JavaShorts implements Shorts {
 
 	private static Shorts instance;
 
-	private static final int SHORT_CACHE_TTL = 5; // 5 seconds
+	private static final int SHORT_TTL = 5; // 5 seconds
+	private static final int FOLLOW_LIST_TTL = 3; // 3 seconds
+
+	private static final String SHORTS_PREFIX = "shorts:";
+	private static final String LIKES_PREFIX = "likers:";
+	private static final String FOLLOWS_PREFIX = "followers:";
 
 	synchronized public static Shorts getInstance() {
 		if (instance == null)
@@ -53,22 +60,15 @@ public class JavaShorts implements Shorts {
 			var shrt = new Short(shortId, userId, blobUrl);
 			shrt.setId(shortId);
 
-			var insertResult = DB.insertOne(shrt);
-			if (!insertResult.isOK()) {
-				return insertResult;
-			}
-
-			var completeShort = shrt.copyWithLikes_And_Token(0);
-
-			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-
-				var key = "shorts:" + shortId;
-				var value = JSON.encode(completeShort);
-				jedis.set(key, value);
-				jedis.expire(key, SHORT_CACHE_TTL);
-
-			}
-			return ok(completeShort);
+			return errorOrValue(DB.insertOne(shrt), s -> {
+				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+					var shortKey = SHORTS_PREFIX + shortId;
+					var value = JSON.encode(shrt);
+					jedis.set(shortKey, value);
+					jedis.expire(shortKey, SHORT_TTL);
+				}
+				return s.copyWithLikes_And_Token(0);
+			});
 		});
 	}
 
@@ -79,22 +79,38 @@ public class JavaShorts implements Shorts {
 		if (shortId == null)
 			return error(BAD_REQUEST);
 
-		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+		Result<Short> shrtResult = null;
+		int likesCount = -1;
 
-			var key = "shorts:" + shortId;
-			var value = jedis.get(key);
-			if (value != null) {
-				jedis.expire(key, SHORT_CACHE_TTL);
-				return Result.ok(JSON.decode(value, Short.class));
+		// Tries to get the short and its likes from the cache
+		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+			var shortKey = SHORTS_PREFIX + shortId;
+			var shortValue = jedis.get(shortKey);
+			if (shortValue != null) {
+				jedis.expire(shortKey, SHORT_TTL);
+				shrtResult = Result.ok(JSON.decode(shortValue, Short.class));
+			}
+			var key = LIKES_PREFIX + shortId;
+			if (jedis.exists(key)) {
+				var value = jedis.lrange(key, 0, -1);
+				likesCount = value.size();
 			}
 		}
+		//If cant get short from cache, get it from the database
+		if (shrtResult == null)
+			shrtResult = getOne(shortId, Short.class);
 
-		String query = format("SELECT VALUE COUNT(1) FROM c WHERE c.shortId = '%s' AND c.type = 'like'", shortId);
-		List<Integer> likesList = DB.sql(query, Integer.class);
+		// If the likes arent in the cache, they are fetched from the database
+		if (likesCount == -1) {
+			String query = format("SELECT VALUE COUNT(1) FROM c WHERE c.shortId = '%s' AND c.type = 'like'", shortId);
+			List<Integer> likesList = DB.sql(query, Integer.class);
+			likesCount = likesList.isEmpty() ? 0 : likesList.get(0);
+		}
+		
+		// Needed to avoid the final modifier error
+		int finalLikesCount = likesCount;
 
-		int likesCount = likesList.isEmpty() ? 0 : likesList.get(0);
-
-		return errorOrValue(getOne(shortId, Short.class), shrt -> shrt.copyWithLikes_And_Token(likesCount));
+		return errorOrValue(shrtResult, shrt -> shrt.copyWithLikes_And_Token(finalLikesCount));
 	}
 
 	@Override
@@ -124,10 +140,11 @@ public class JavaShorts implements Shorts {
 					}
 
 					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-						var key = "shorts:" + shortId;
-						if (jedis.exists(key)) {
-							jedis.del(key);
-						}
+						var shortKey = SHORTS_PREFIX + shortId;
+						jedis.del(shortKey);
+
+						var likesKey = LIKES_PREFIX + shortId;
+						jedis.del(likesKey);
 					}
 
 					JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get());
@@ -151,8 +168,22 @@ public class JavaShorts implements Shorts {
 				isFollowing, password));
 
 		return errorOrResult(okUser(userId1, password), user -> {
-			var f = new Following(userId1, userId2);
-			return errorOrVoid(okUser(userId2), isFollowing ? DB.insertOne(f) : DB.deleteOne(f));
+			var f = new Following(userId1, userId2, userId1+userId2);
+			return errorOrVoid(okUser(userId2), usr ->{
+				var result = isFollowing ? DB.insertOne(f) : DB.deleteOne(f);
+				if(result.isOK()) {
+					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+						var key = FOLLOWS_PREFIX + userId2;
+						if(jedis.exists(key)) {
+							if(isFollowing)
+								jedis.lpush(key, userId2);
+							else
+								jedis.lrem(key, 1, userId1);
+						}
+					}
+				}
+				return result;
+			});
 		});
 	}
 
@@ -161,7 +192,17 @@ public class JavaShorts implements Shorts {
 		Log.info(() -> format("followers : userId = %s, pwd = %s\n", userId, password));
 
 		var query = format("SELECT f.follower FROM Following f WHERE f.followee = '%s'", userId);
-		return errorOrValue(okUser(userId, password), DB.sql(query, String.class));
+		return errorOrValue(okUser(userId, password), usr -> {
+			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+				var key = FOLLOWS_PREFIX + userId;
+				var value = jedis.lrange(key, 0, -1);
+				if (!value.isEmpty()) {
+					jedis.expire(key, FOLLOW_LIST_TTL);
+					return value;
+				}
+			}
+			return DB.sql(query, String.class);
+		});
 	}
 
 	@Override
@@ -171,7 +212,20 @@ public class JavaShorts implements Shorts {
 
 		return errorOrResult(getShort(shortId), shrt -> {
 			var l = new Likes(userId, shortId, shrt.getOwnerId());
-			return errorOrVoid(okUser(userId, password), isLiked ? DB.insertOne(l) : DB.deleteOne(l));
+			return errorOrVoid(okUser(userId, password), usr -> {
+				var result = isLiked ? DB.insertOne(l) : DB.deleteOne(l);
+				if (result.isOK()) {
+					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+						var key = LIKES_PREFIX + shortId;
+						if(jedis.exists(key))
+							if(isLiked)
+								jedis.lpush(key, userId);
+							else
+								jedis.lrem(key, 1, userId);
+					}
+				}
+				return result;
+			});
 		});
 	}
 
@@ -179,11 +233,21 @@ public class JavaShorts implements Shorts {
 	public Result<List<String>> likes(String shortId, String password) {
 		Log.info(() -> format("likes : shortId = %s, pwd = %s\n", shortId, password));
 
+		List<String> likeList = null;
+		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+			var key = LIKES_PREFIX + shortId;
+			likeList = jedis.lrange(key, 0, -1);
+		}
+		// Needed to avoid the final modifier error
+		final List<String> finalLikeList = likeList;
 		return errorOrResult(getShort(shortId), shrt -> {
-
-			var query = format("SELECT l.userId FROM Likes l WHERE l.shortId = '%s'", shortId);
-
-			return errorOrValue(okUser(shrt.getOwnerId(), password), DB.sql(query, String.class));
+			return errorOrValue(okUser(shrt.getOwnerId(), password), usr -> {
+				if(!finalLikeList.isEmpty())
+					return finalLikeList;
+				var query = format("SELECT VALUE c.userId FROM c WHERE c.shortId = '%s' AND c.type = 'like'", shortId);
+				//var query = format("SELECT l.userId FROM Likes l WHERE l.shortId = '%s'", shortId);
+				return DB.sql(query, String.class);
+			});
 		});
 	}
 

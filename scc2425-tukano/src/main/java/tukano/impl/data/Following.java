@@ -8,7 +8,10 @@ import jakarta.persistence.Id;
 @Entity
 public class Following{
 
-	@Id 
+	@Id
+	String id;
+
+	@Id
 	String follower;
 	
 	@Id 
@@ -16,8 +19,9 @@ public class Following{
 
 	Following() {}
 
-	public Following(String follower, String followee) {
+	public Following(String follower, String followee, String id) {
 		super();
+		this.id = id;
 		this.follower = follower;
 		this.followee = followee;
 	}
@@ -36,6 +40,14 @@ public class Following{
 
 	public void setFollowee(String followee) {
 		this.followee = followee;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Override
