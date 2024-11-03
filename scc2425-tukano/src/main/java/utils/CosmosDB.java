@@ -3,6 +3,8 @@ package utils;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.azure.cosmos.ConsistencyLevel;
 import com.azure.cosmos.CosmosClient;
@@ -19,9 +21,6 @@ import tukano.api.Result;
 import tukano.api.Result.ErrorCode;
 
 public class CosmosDB {
-    // private static final String COSMOS_DB_ENDPOINT = System.getenv("COSMOSDB_URL");
-    // private static final String COSMOS_DB_KEY = System.getenv("COSMOSDB_KEY");
-    // private static final String DATABASE_NAME = System.getenv("COSMOSDB_DATABASE");
     private static final String COSMOS_DB_ENDPOINT = Props.get("COSMOSDB_URL", "error?");
     private static final String COSMOS_DB_KEY = Props.get("COSMOSDB_KEY", "error?");
     private static final String DATABASE_NAME = Props.get("COSMOSDB_DATABASE", "error?");
@@ -46,9 +45,6 @@ public class CosmosDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-       // if(cosmosClient == null)
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$CosmosDB initialized$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n"+
-                                "COSMOS DB KEY = "+COSMOS_DB_KEY);
     }
 
     synchronized public static CosmosDB getInstance() {
@@ -103,7 +99,7 @@ public class CosmosDB {
     
     public <T> List<T> sql(String sqlStatement, Class<T> clazz) {
         try {
-            CosmosContainer cosmosContainer = getContainerForClass(clazz);
+            CosmosContainer cosmosContainer = getContainerForQuery(sqlStatement);
             CosmosPagedIterable<T> query = cosmosContainer.queryItems(sqlStatement, new CosmosQueryRequestOptions(), clazz);
 
             List<T> results = query.stream().toList();
@@ -133,20 +129,39 @@ public class CosmosDB {
         }
     }
 
-    private CosmosContainer getContainerForClass(Class<?> clazz) {
+    private CosmosContainer getContainer(String name) {
         String containerName;
-        
-        switch (clazz.getSimpleName()) {
-            case "User" -> containerName = "users";
-            case "Short" -> containerName = "shorts";
-            case "Likes" -> containerName = "shorts";
-            case "Following" -> containerName = "shorts";
-            case "Integer" -> containerName = "shorts";
-            case "String" -> containerName = "shorts";
-            default -> throw new IllegalArgumentException("Unknown class: " + clazz.getName());
+        switch (name.toLowerCase()) {
+            case "user" -> containerName = "users";
+            case "u" -> containerName = "users";
+            case "short" -> containerName = "shorts";
+            case "s" -> containerName = "shorts";
+            case "following" -> containerName = "following";
+            case "f" -> containerName = "following";
+            case "likes" -> containerName = "likes";
+            case "l" -> containerName = "likes";
+            case "integer" -> containerName = "shorts";
+            case "string" -> containerName = "shorts";
+            default -> throw new IllegalArgumentException("Unknown class: " + name);
         }
-
+        System.out.println("Container id : " + cosmosDatabase.getContainer(containerName).getId());
         return cosmosDatabase.getContainer(containerName);
+    }
+
+    private CosmosContainer getContainerForClass(Class<?> clazz) {
+        return getContainer(clazz.getSimpleName());
+    }
+
+    private CosmosContainer getContainerForQuery(String query) {
+        String result = "";
+        String regex = "\\bFROM\\s+(\\w+)"; // Match "FROM" followed by a space and capture the next word
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(query);
+        
+        if (matcher.find()) {
+            result = matcher.group(1); // Get the captured group after "FROM"
+        }
+        return getContainer(result);
     }
     
 }

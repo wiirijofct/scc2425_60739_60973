@@ -1,12 +1,7 @@
 package tukano.api;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
 public class User {
 	
-	@Id
 	private String id;
 	private String userId;
 	private String pwd;
@@ -17,24 +12,22 @@ public class User {
 	public User() {}
 	
 	public User(String userId, String pwd, String email, String displayName) {
-		this.id = userId;
 		this.pwd = pwd;
 		this.email = email;
 		this.userId = userId;
+		this.id = userId;
 		this.displayName = displayName;
 	}
 
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+		this.id = userId;
+	}
+	public String getId() {
+		return id;
 	}
 	public String getPwd() {
 		return pwd;
@@ -54,9 +47,7 @@ public class User {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
-	public String id() {
-		return id;
-	}
+	
 	public String userId() {
 		return userId;
 	}
@@ -75,7 +66,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", id=" + id + ", pwd=" + pwd + ", email=" + email + ", displayName=" + displayName + "]";
+		return "User [userId=" + userId + ", pwd=" + pwd + ", email=" + email + ", displayName=" + displayName + "]";
 	}
 	
 	public User copyWithoutPassword() {

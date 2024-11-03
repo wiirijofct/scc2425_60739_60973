@@ -26,7 +26,8 @@ public class JavaUsers implements Users {
 
 	private static Users instance;
 
-	private static final int USER_CACHE_TTL = 3; // 3 seconds
+	private static final int USER_CACHE_TTL = 10; // 3 seconds
+	private static final String USERS_PREFIX = "users:";
 	
 	synchronized public static Users getInstance() {
 		if( instance == null )
@@ -45,7 +46,7 @@ public class JavaUsers implements Users {
 
 		return errorOrValue( DB.insertOne( user), usr -> {
 			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-				var key = "users:" + user.getUserId();
+				var key = USERS_PREFIX + user.getUserId();
 				var value = JSON.encode(user);
 				jedis.set(key, value);
 				jedis.expire(key, USER_CACHE_TTL);
@@ -62,7 +63,7 @@ public class JavaUsers implements Users {
 			return error(BAD_REQUEST);
 
 		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-			var key = "users:" + userId;
+			var key = USERS_PREFIX + userId;
 			var val =jedis.get(key);
 			if (val != null) {
 				var user = JSON.decode(val, User.class);
@@ -80,7 +81,7 @@ public class JavaUsers implements Users {
 			return error(BAD_REQUEST);
 			
 		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-			var key = "users:" + userId;
+			var key = USERS_PREFIX + userId;
 			var val =jedis.get(key);
 			if (val != null) {
 				var user = JSON.decode(val, User.class);
@@ -103,7 +104,7 @@ public class JavaUsers implements Users {
 
 		Result<User> userIsOk = null;
 		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-			var key = "users:" + userId;
+			var key = USERS_PREFIX + userId;
 			var val =jedis.get(key);
 			if (val != null) {
 				var user = JSON.decode(val, User.class);
@@ -135,7 +136,7 @@ public class JavaUsers implements Users {
 		// var query = format("SELECT * FROM User u WHERE UPPER(u.userId) LIKE '%%%s%%'", pattern.toUpperCase());
 		if (pattern == null || pattern.trim().isEmpty()) {
 			// if no pattern is provided return all users
-			String query = "SELECT * FROM c"; // get all users
+			String query = "SELECT * FROM user"; // get all users
 			List<User> hits = DB.sql(query, User.class)
 					.stream()
 					.map(User::copyWithoutPassword)
