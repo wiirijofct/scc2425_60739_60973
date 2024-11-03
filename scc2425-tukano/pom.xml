@@ -9,6 +9,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<authors>xxxxx-xxxxx</authors>
+        <functionAppName>fun60739northeurope</functionAppName>
+    	<functionRegion>northeurope</functionRegion>
+    	<functionStorageAccountName>sto60739northeurope</functionStorageAccountName>
+    	<functionResourceGroup>rg60739-northeurope</functionResourceGroup>
 	</properties>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -65,8 +69,32 @@
 					<warSourceDirectory>${project.basedir}/src/main/webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-functions-maven-plugin</artifactId>
+                <version>1.13.0</version>
+                <configuration>
+                    <resourceGroup>${functionResourceGroup}</resourceGroup>
+                    <appName>${functionAppName}</appName>
+                    <region>${functionRegion}</region>
+                    <runtime>
+                        <os>linux</os>
+                        <javaVersion>11</javaVersion>
+                    </runtime>
+                    <appSettings>
+                        <property>
+                            <name>FUNCTIONS_EXTENSION_VERSION</name>
+                            <value>~4</value>
+                        </property>
+                        <property>
+                            <name>AzureWebJobsStorage</name>
+                            <value>${functionStorageAccountName}</value>
+                        </property>
+                    </appSettings>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 	<dependencies>
 <!-- Azure Storage Blob dependency -->
     <dependency>
@@ -74,6 +102,12 @@
     	<artifactId>azure-storage-blob</artifactId>
     	<version>12.28.0</version>
 	</dependency>
+
+     <dependency>
+        <groupId>com.microsoft.azure.functions</groupId>
+        <artifactId>azure-functions-java-library</artifactId>
+        <version>1.4.2</version>
+    </dependency>
 
     <!-- Azure Cosmos dependency -->
     <dependency>
