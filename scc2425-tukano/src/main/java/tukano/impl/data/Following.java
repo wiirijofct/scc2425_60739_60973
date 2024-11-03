@@ -2,28 +2,24 @@ package tukano.impl.data;
 
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
 public class Following{
 
-	@Id
+	// This is used to create id so there isnt a chance to exist two following with the same id
+	private static final String DIFFERENTIATIOR = "arhmop";
+
 	String id;
 
-	@Id
 	String follower;
 	
-	@Id 
 	String followee;
 
 	Following() {}
 
-	public Following(String follower, String followee, String id) {
+	public Following(String follower, String followee) {
 		super();
-		this.id = id;
 		this.follower = follower;
 		this.followee = followee;
+		this.id = follower + DIFFERENTIATIOR + followee;
 	}
 
 	public String getFollower() {
@@ -44,10 +40,6 @@ public class Following{
 
 	public String getId() {
 		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	@Override

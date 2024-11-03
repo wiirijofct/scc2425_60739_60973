@@ -2,25 +2,15 @@ package tukano.impl.data;
 
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
 public class Likes {
+
+	private static final String DIFFERENTIATOR = "awcrtmuh";
 	
-	@Id 
+	String id;
+
 	String userId;
 	
-	@Id 
 	String shortId;
-	
-	public String getOwnerId() {
-		return ownerId;
-	}
-
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
-	}
 
 	String ownerId;
 	
@@ -29,6 +19,7 @@ public class Likes {
 	public Likes(String userId, String shortId, String ownerId) {
 		this.userId = userId;
 		this.shortId = shortId;
+		this.id = userId + DIFFERENTIATOR + shortId;
 		this.ownerId = ownerId;
 	}
 
@@ -46,6 +37,18 @@ public class Likes {
 
 	public void setShortId(String shortId) {
 		this.shortId = shortId;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
 	}
 
 	@Override

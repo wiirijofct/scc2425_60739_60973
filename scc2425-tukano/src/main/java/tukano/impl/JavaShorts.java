@@ -2,6 +2,7 @@ package tukano.impl;
 
 import static java.lang.String.format;
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -33,12 +34,11 @@ public class JavaShorts implements Shorts {
 
 	private static Shorts instance;
 
-	private static final int SHORT_TTL = 5; // 5 seconds
-	private static final int FOLLOW_LIST_TTL = 3; // 3 seconds
+	private static final int SHORT_TTL = 29; // 5 seconds
+	private static final int LIKE_LIST_TTL = 15; // 3 seconds
 
 	private static final String SHORTS_PREFIX = "shorts:";
 	private static final String LIKES_PREFIX = "likers:";
-	private static final String FOLLOWS_PREFIX = "followers:";
 
 	synchronized public static Shorts getInstance() {
 		if (instance == null)
@@ -57,7 +57,6 @@ public class JavaShorts implements Shorts {
 			var shortId = format("%s+%s", userId, UUID.randomUUID());
 			var blobUrl = format("%s/%s/%s", TukanoRestServer.serverURI, Blobs.NAME, shortId);
 			var shrt = new Short(shortId, userId, blobUrl);
-			shrt.setId(shortId);
 
 			return errorOrValue(DB.insertOne(shrt), s -> {
 				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
@@ -101,7 +100,7 @@ public class JavaShorts implements Shorts {
 
 		// If the likes arent in the cache, they are fetched from the database
 		if (likesCount == -1) {
-			String query = format("SELECT VALUE COUNT(1) FROM c WHERE c.shortId = '%s' AND c.type = 'like'", shortId);
+			String query = format("SELECT VALUE COUNT(1) FROM l WHERE l.shortId = '%s'", shortId);
 			List<Integer> likesList = DB.sql(query, Integer.class);
 			likesCount = likesList.isEmpty() ? 0 : likesList.get(0);
 		}
@@ -124,16 +123,16 @@ public class JavaShorts implements Shorts {
 					// hibernate.remove( shrt);
 
 					Result<Short> res = DB.deleteOne(shrt);
-					if (res.error() != null) {
+					if (!res.isOK()) {
 						return Result.error(res.error());
 					}
-					String likesQuery = format("SELECT * FROM c WHERE c.shortId = '%s' AND c.type = 'like'", shortId);
+					String likesQuery = format("SELECT * FROM l WHERE l.shortId = '%s'", shortId);
 					List<Likes> likesList = DB.sql(likesQuery, Likes.class);
 					// var query = format("DELETE Likes l WHERE l.shortId = '%s'", shortId);
 					// hibernate.createNativeQuery( query, Likes.class).executeUpdate();
 					for (Likes like : likesList) {
 						Result<Likes> deleteLikeRes = DB.deleteOne(like);
-						if (deleteLikeRes.error() != null) {
+						if (!deleteLikeRes.isOK()) {
 							return Result.error(deleteLikeRes.error());
 						}
 					}
@@ -157,7 +156,7 @@ public class JavaShorts implements Shorts {
 	public Result<List<String>> getShorts(String userId) {
 		Log.info(() -> format("getShorts : userId = %s\n", userId));
 
-		var query = format("SELECT VALUE c.shortId FROM c WHERE c.ownerId = '%s'", userId);
+		var query = format("SELECT VALUE s.shortId FROM s WHERE s.ownerId = '%s'", userId);
 		return errorOrValue(okUser(userId), DB.sql(query, String.class));
 	}
 
@@ -167,20 +166,9 @@ public class JavaShorts implements Shorts {
 				isFollowing, password));
 
 		return errorOrResult(okUser(userId1, password), user -> {
-			var f = new Following(userId1, userId2, userId1 + userId2);
-			return errorOrVoid(okUser(userId2), usr -> {
+			var f = new Following(userId1, userId2);
+			return errorOrVoid(okUser(userId2), usr ->{
 				var result = isFollowing ? DB.insertOne(f) : DB.deleteOne(f);
-				if (result.isOK()) {
-					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-						var key = FOLLOWS_PREFIX + userId2;
-						if (jedis.exists(key)) {
-							if (isFollowing)
-								jedis.lpush(key, userId2);
-							else
-								jedis.lrem(key, 1, userId1);
-						}
-					}
-				}
 				return result;
 			});
 		});
@@ -190,16 +178,8 @@ public class JavaShorts implements Shorts {
 	public Result<List<String>> followers(String userId, String password) {
 		Log.info(() -> format("followers : userId = %s, pwd = %s\n", userId, password));
 
-		var query = format("SELECT f.follower FROM Following f WHERE f.followee = '%s'", userId);
+		var query = format("SELECT VALUE f.follower FROM f WHERE f.followee = '%s'", userId);
 		return errorOrValue(okUser(userId, password), usr -> {
-			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-				var key = FOLLOWS_PREFIX + userId;
-				var value = jedis.lrange(key, 0, -1);
-				if (!value.isEmpty()) {
-					jedis.expire(key, FOLLOW_LIST_TTL);
-					return value;
-				}
-			}
 			return DB.sql(query, String.class);
 		});
 	}
@@ -237,16 +217,27 @@ public class JavaShorts implements Shorts {
 			var key = LIKES_PREFIX + shortId;
 			likeList = jedis.lrange(key, 0, -1);
 		}
+
 		// Needed to avoid the final modifier error
 		final List<String> finalLikeList = likeList;
+
 		return errorOrResult(getShort(shortId), shrt -> {
 			return errorOrValue(okUser(shrt.getOwnerId(), password), usr -> {
-				if (!finalLikeList.isEmpty())
+
+				if(!finalLikeList.isEmpty())
 					return finalLikeList;
-				var query = format("SELECT VALUE c.userId FROM c WHERE c.shortId = '%s' AND c.type = 'like'", shortId);
-				// var query = format("SELECT l.userId FROM Likes l WHERE l.shortId = '%s'",
-				// shortId);
-				return DB.sql(query, String.class);
+				
+					//var query = format("SELECT l.userId FROM Likes l WHERE l.shortId = '%s'", shortId);
+				var query = format("SELECT VALUE l.userId FROM l WHERE l.shortId = '%s'", shortId);
+				var likesList = DB.sql(query, String.class);
+				
+				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+					var key = LIKES_PREFIX + shortId;
+					jedis.lpush(key, likesList.toArray(new String[0]));
+					jedis.expire(key, LIKE_LIST_TTL);
+				}
+
+				return likesList;
 			});
 		});
 	}
@@ -262,6 +253,12 @@ public class JavaShorts implements Shorts {
 					WHERE
 						f.followee = s.ownerId AND f.follower = '%s'
 				ORDER BY s.timestamp DESC""";
+
+		// final var query = """
+		// 		SELECT s.shortId, s.timestamp
+		// 		FROM Short s
+		// 		WHERE s.ownerId = @userId OR ARRAY_CONTAINS(@followingIds, s.ownerId)
+		// 		ORDER BY s.timestamp DESC""";
 
 		return errorOrValue(okUser(userId, password), DB.sql(format(QUERY_FMT, userId, userId), String.class));
 	}
