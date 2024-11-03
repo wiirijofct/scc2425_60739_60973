@@ -254,12 +254,6 @@ public class JavaShorts implements Shorts {
 						f.followee = s.ownerId AND f.follower = '%s'
 				ORDER BY s.timestamp DESC""";
 
-		// final var query = """
-		// 		SELECT s.shortId, s.timestamp
-		// 		FROM Short s
-		// 		WHERE s.ownerId = @userId OR ARRAY_CONTAINS(@followingIds, s.ownerId)
-		// 		ORDER BY s.timestamp DESC""";
-
 		return errorOrValue(okUser(userId, password), DB.sql(format(QUERY_FMT, userId, userId), String.class));
 	}
 
@@ -286,7 +280,7 @@ public class JavaShorts implements Shorts {
 			List<String> errors = new ArrayList<>();
 	
 			// Delete shorts
-			String deleteShortsQuery = format("SELECT * FROM c WHERE c.ownerId = '%s'", userId);
+			String deleteShortsQuery = format("SELECT * FROM s WHERE s.ownerId = '%s'", userId);
 			List<Short> shortsList = DB.sql(deleteShortsQuery, Short.class);
 	
 			List<Short> shortsToDelete = new ArrayList<>(shortsList);
@@ -301,10 +295,12 @@ public class JavaShorts implements Shorts {
 						errors.add(errorMessage);
 					} else {
 						try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-							var key = "shorts:" + shortObj.getShortId();
-							if (jedis.exists(key)) {
-								jedis.del(key);
-							}
+							var shortKey = SHORTS_PREFIX + shortObj.getShortId();
+							jedis.del(shortKey);
+
+							var likesKey = LIKES_PREFIX + shortObj.getShortId();
+							jedis.del(likesKey);
+
 						} catch (Exception e) {
 							String redisError = format("Error deleting short from Redis with ID: %s, Exception: %s", shortObj.getShortId(), e.getMessage());
 							Log.severe(() -> redisError);
@@ -322,7 +318,7 @@ public class JavaShorts implements Shorts {
 	
 			// Delete follows
 			String deleteFollowsQuery = format(
-				"SELECT * FROM c WHERE c.follower = '%s' OR c.followee = '%s' AND c.type ='following'", userId, userId);
+				"SELECT * FROM f WHERE f.follower = '%s' OR f.followee = '%s'", userId, userId);
 			List<Following> followsList = DB.sql(deleteFollowsQuery, Following.class);
 	
 			for (Following follow : followsList) {
@@ -343,7 +339,7 @@ public class JavaShorts implements Shorts {
 			Log.info("Finished deleting follows");
 	
 			// Delete likes
-			String deleteLikesQuery = format("SELECT * FROM c WHERE c.userId = '%s' AND c.type = 'like'", userId);
+			String deleteLikesQuery = format("SELECT * FROM l WHERE l.userId = '%s'", userId);
 			List<Likes> likesList = DB.sql(deleteLikesQuery, Likes.class);
 	
 			for (Likes like : likesList) {
