@@ -1,16 +1,13 @@
 package tukano.api;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
 public class User {
 	
-	@Id
+	private String id;
 	private String userId;
 	private String pwd;
 	private String email;	
 	private String displayName;
+
 
 	public User() {}
 	
@@ -18,6 +15,7 @@ public class User {
 		this.pwd = pwd;
 		this.email = email;
 		this.userId = userId;
+		this.id = userId;
 		this.displayName = displayName;
 	}
 
@@ -26,6 +24,10 @@ public class User {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+		this.id = userId;
+	}
+	public String getId() {
+		return id;
 	}
 	public String getPwd() {
 		return pwd;

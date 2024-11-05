@@ -1,7 +1,5 @@
 package tukano.api;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import tukano.impl.Token;
 
 /**
@@ -13,10 +11,9 @@ import tukano.impl.Token;
  * A short is timestamped when it is created.
  *
  */
-@Entity
 public class Short {
 	
-	@Id
+	String id;
 	String shortId;
 	String ownerId;
 	String blobUrl;
@@ -28,6 +25,7 @@ public class Short {
 	public Short(String shortId, String ownerId, String blobUrl, long timestamp, int totalLikes) {
 		super();
 		this.shortId = shortId;
+		this.id = shortId;
 		this.ownerId = ownerId;
 		this.blobUrl = blobUrl;
 		this.timestamp = timestamp;
@@ -44,6 +42,11 @@ public class Short {
 
 	public void setShortId(String shortId) {
 		this.shortId = shortId;
+		this.id = shortId;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public String getOwnerId() {

@@ -1,17 +1,16 @@
 package tukano.impl;
 
 import static java.lang.String.format;
-import static tukano.api.Result.error;
-import static tukano.api.Result.ErrorCode.FORBIDDEN;
-
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import tukano.api.Blobs;
 import tukano.api.Result;
+import static tukano.api.Result.ErrorCode.FORBIDDEN;
+import static tukano.api.Result.error;
 import tukano.impl.rest.TukanoRestServer;
+import tukano.impl.storage.AzureStorage;
 import tukano.impl.storage.BlobStorage;
-import tukano.impl.storage.FilesystemStorage;
 import utils.Hash;
 import utils.Hex;
 
@@ -30,7 +29,8 @@ public class JavaBlobs implements Blobs {
 	}
 	
 	private JavaBlobs() {
-		storage = new FilesystemStorage();
+		// storage = new FilesystemStorage();
+		storage = new AzureStorage();
 		baseURI = String.format("%s/%s/", TukanoRestServer.serverURI, Blobs.NAME);
 	}
 	
@@ -81,7 +81,7 @@ public class JavaBlobs implements Blobs {
 		if( ! Token.isValid( token, userId ) )
 			return error(FORBIDDEN);
 		
-		return storage.delete( toPath(userId));
+		return storage.deleteAllBlobsWithPrefix( userId );
 	}
 	
 	private boolean validBlobId(String blobId, String token) {		
