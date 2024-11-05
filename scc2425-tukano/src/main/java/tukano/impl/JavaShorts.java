@@ -2,12 +2,12 @@ package tukano.impl;
 
 import static java.lang.String.format;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 import redis.clients.jedis.Jedis;
+import tukano.api.AppUser;
 import tukano.api.Blobs;
 import tukano.api.Result;
 import static tukano.api.Result.ErrorCode.BAD_REQUEST;
@@ -19,7 +19,6 @@ import static tukano.api.Result.errorOrVoid;
 import static tukano.api.Result.ok;
 import tukano.api.Short;
 import tukano.api.Shorts;
-import tukano.api.User;
 import tukano.impl.data.Following;
 import tukano.impl.data.Likes;
 import tukano.impl.rest.TukanoRestServer;
@@ -257,7 +256,7 @@ public class JavaShorts implements Shorts {
 		return errorOrValue(okUser(userId, password), DB.sql(format(QUERY_FMT, userId, userId), String.class));
 	}
 
-	protected Result<User> okUser(String userId, String pwd) {
+	protected Result<AppUser> okUser(String userId, String pwd) {
 		return JavaUsers.getInstance().getUser(userId, pwd);
 	}
 
