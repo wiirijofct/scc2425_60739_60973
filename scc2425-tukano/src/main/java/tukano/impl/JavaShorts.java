@@ -245,15 +245,23 @@ public class JavaShorts implements Shorts {
 	public Result<List<String>> getFeed(String userId, String password) {
 		Log.info(() -> format("getFeed : userId = %s, pwd = %s\n", userId, password));
 
-		final var QUERY_FMT = """
-				SELECT s.shortId, s.timestamp FROM Short s WHERE	s.ownerId = '%s'
-				UNION
-				SELECT s.shortId, s.timestamp FROM Short s, Following f
-					WHERE
-						f.followee = s.ownerId AND f.follower = '%s'
-				ORDER BY s.timestamp DESC""";
+		return errorOrValue(okUser(userId, password), usr -> {
 
-		return errorOrValue(okUser(userId, password), DB.sql(format(QUERY_FMT, userId, userId), String.class));
+			var followingQuery = format("SELECT VALUE f.followee FROM f WHERE f.follower = '%s'", userId);
+			var followingList = DB.sql(followingQuery, String.class);
+
+			if (followingList.isEmpty()) {
+				return new ArrayList<String>(0);
+			}
+
+			String listString = CosmosDB.formatListForSqlInClause(followingList);
+
+			var feedQuery = format("SELECT VALUE s.shortId FROM s WHERE s.ownerId IN %s ORDER BY s.timestamp DESC", listString);
+
+			Log.info(feedQuery);
+
+			return DB.sql(feedQuery, String.class);
+		});
 	}
 
 	protected Result<AppUser> okUser(String userId, String pwd) {
