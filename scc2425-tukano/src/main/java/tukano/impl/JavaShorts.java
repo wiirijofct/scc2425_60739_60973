@@ -271,9 +271,7 @@ public class JavaShorts implements Shorts {
 
 			Log.info(feedQuery);
 
-			var feed = DB.sql(String.class, feedQuery, followingList.toArray());
-
-			return feed;
+			return DB.sql(feedQuery, String.class);
 		});
 	}
 
