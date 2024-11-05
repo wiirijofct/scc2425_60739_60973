@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Following{
 
 	// This is used to create id so there isnt a chance to exist two following with the same id
-	private static final String DIFFERENTIATIOR = "arhmop";
+	public static final String DIFFERENTIATIOR = "arhmop";
 
 	String id;
 

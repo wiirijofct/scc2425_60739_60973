@@ -3,8 +3,10 @@ package utils;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.azure.cosmos.ConsistencyLevel;
 import com.azure.cosmos.CosmosClient;
@@ -21,6 +23,9 @@ import tukano.api.Result;
 import tukano.api.Result.ErrorCode;
 
 public class CosmosDB {
+    
+    private static Logger Log = Logger.getLogger(CosmosDB.class.getName());
+
     private static final String COSMOS_DB_ENDPOINT = Props.get("COSMOSDB_URL", "error?");
     private static final String COSMOS_DB_KEY = Props.get("COSMOSDB_KEY", "error?");
     private static final String DATABASE_NAME = Props.get("COSMOSDB_DATABASE", "error?");
@@ -51,6 +56,12 @@ public class CosmosDB {
         if (instance == null)
             instance = new CosmosDB();
         return instance;
+    }
+
+    public static String formatListForSqlInClause(List<String> elements) {
+        return elements.stream()
+                .map(element -> "\"" + element + "\"") // Wrap each element in double quotes
+                .collect(Collectors.joining(", ", "(", ")")); // Join with commas, add parentheses
     }
 
     public Result<Void> persistOne(Object obj) {
@@ -99,6 +110,7 @@ public class CosmosDB {
     
     public <T> List<T> sql(String sqlStatement, Class<T> clazz) {
         try {
+            Log.info(sqlStatement);
             CosmosContainer cosmosContainer = getContainerForQuery(sqlStatement);
             CosmosPagedIterable<T> query = cosmosContainer.queryItems(sqlStatement, new CosmosQueryRequestOptions(), clazz);
 
