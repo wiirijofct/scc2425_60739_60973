@@ -4,8 +4,11 @@ import static java.lang.String.format;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import org.hibernate.Session;
 
 import redis.clients.jedis.Jedis;
 import tukano.api.AppUser;
@@ -103,7 +106,7 @@ public class JavaShorts implements Shorts {
 		if (likesCount == -1) {
 			String query;
 			if(DB.BASE == DB.NOSQL)
-				query = format("SELECT VALUE COUNT(1) FROM likes WHERE shortId = '%s'", shortId);
+				query = format("SELECT VALUE COUNT(1) FROM l WHERE l.shortId = '%s'", shortId);
 			else
 				query = format("SELECT COUNT(*) FROM likes WHERE shortId = '%s'", shortId);
 			List<Integer> likesList = DB.sql(query, Integer.class);
@@ -116,6 +119,7 @@ public class JavaShorts implements Shorts {
 		return errorOrValue(shrtResult, shrt -> shrt.copyWithLikes_And_Token(finalLikesCount));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Result<Void> deleteShort(String shortId, String password) {
 		Log.info(() -> format("deleteShort : shortId = %s, pwd = %s\n", shortId, password));
@@ -131,8 +135,6 @@ public class JavaShorts implements Shorts {
 					if (!res.isOK()) {
 						return Result.error(res.error());
 					}
-					var query = format("DELETE Likes l WHERE l.shortId = '%s'", shortId);
-					hibernate.createNativeQuery( query, Likes.class).executeUpdate();
 
 					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
 						var shortKey = SHORTS_PREFIX + shortId;
@@ -140,6 +142,15 @@ public class JavaShorts implements Shorts {
 
 						var likesKey = LIKES_PREFIX + shortId;
 						jedis.del(likesKey);
+					}
+
+					if(DB.BASE == DB.NOSQL) {
+
+					}
+
+					else {
+						var query = format("DELETE Likes l WHERE l.shortId = '%s'", shortId);
+						((Consumer<Session>) hibernate).createNativeQuery( query, Likes.class).executeUpdate();
 					}
 
 					JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get());
