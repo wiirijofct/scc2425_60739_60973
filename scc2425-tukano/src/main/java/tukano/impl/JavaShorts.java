@@ -248,7 +248,7 @@ public class JavaShorts implements Shorts {
 				if(!finalLikeList.isEmpty())
 					return finalLikeList;
 					
-				String query;
+				String query;	
 				if(DB.BASE == DB.NOSQL) 
 					query = format("SELECT VALUE l.userId FROM l WHERE l.shortId = '%s'", shortId);
 				else
