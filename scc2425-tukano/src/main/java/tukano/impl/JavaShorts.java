@@ -101,7 +101,11 @@ public class JavaShorts implements Shorts {
 
 		// If the likes arent in the cache, they are fetched from the database
 		if (likesCount == -1) {
-			String query = format("SELECT COUNT(*) FROM likes WHERE shortId = '%s'", shortId);
+			String query;
+			if(DB.BASE == DB.NOSQL)
+				query = format("SELECT VALUE COUNT(1) FROM likes WHERE shortId = '%s'", shortId);
+			else
+				query = format("SELECT COUNT(*) FROM likes WHERE shortId = '%s'", shortId);
 			List<Integer> likesList = DB.sql(query, Integer.class);
 			likesCount = likesList.isEmpty() ? 0 : likesList.get(0);
 		}
