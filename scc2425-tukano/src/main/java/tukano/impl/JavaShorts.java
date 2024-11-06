@@ -270,24 +270,33 @@ public class JavaShorts implements Shorts {
 	public Result<List<String>> getFeed(String userId, String password) {
 		Log.info(() -> format("getFeed : userId = %s, pwd = %s\n", userId, password));
 
-		String query;
-		if(DB.BASE == DB.NOSQL) {
+		return errorOrValue(okUser(userId, password), usr -> {
 
-			var followingQuery = format("SELECT VALUE f.followee FROM f WHERE f.follower = '%s'", userId);
-			var followingList = DB.sql(followingQuery, String.class);
-			
-			if (followingList.isEmpty()) {
-				return new ArrayList<String>(0);
+			String query;
+			if(DB.BASE == DB.NOSQL) {
+
+				var followingQuery = format("SELECT VALUE f.followee FROM f WHERE f.follower = '%s'", userId);
+				var followingList = DB.sql(followingQuery, String.class);
+				
+				if (followingList.isEmpty()) {
+					return new ArrayList<String>(0);
+				}
+				
+				String listString = CosmosDB.formatListForSqlInClause(followingList);
+				
+				query = format("SELECT VALUE s.shortId FROM s WHERE s.ownerId IN %s ORDER BY s.timestamp DESC", listString);
 			}
-			
-			String listString = CosmosDB.formatListForSqlInClause(followingList);
-			
-			query = format("SELECT VALUE s.shortId FROM s WHERE s.ownerId IN %s ORDER BY s.timestamp DESC", listString);
-		}
-		else
-			query = format("SELECT shortId FROM shorts WHERE ownerId IN (SELECT followee FROM following WHERE follower = '%s') ORDER BY timestamp DESC", userId);
+			else {
+				
+				query = format("""SELECT shortId 
+								FROM shorts WHERE ownerId
+								IN (SELECT followee FROM following WHERE follower = '%s')
+								ORDER BY timestamp DESC""", userId);
+			}
 
-		return errorOrValue(okUser(userId, password), DB.sql(QUERY, String.class));
+
+			return DB.sql(query, String.class);
+		});
 	}
 
 	protected Result<AppUser> okUser(String userId, String pwd) {
