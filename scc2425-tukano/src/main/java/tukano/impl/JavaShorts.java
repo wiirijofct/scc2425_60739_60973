@@ -119,7 +119,6 @@ public class JavaShorts implements Shorts {
 		return errorOrValue(shrtResult, shrt -> shrt.copyWithLikes_And_Token(finalLikesCount));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Result<Void> deleteShort(String shortId, String password) {
 		Log.info(() -> format("deleteShort : shortId = %s, pwd = %s\n", shortId, password));
@@ -128,8 +127,6 @@ public class JavaShorts implements Shorts {
 
 			return errorOrResult(okUser(shrt.getOwnerId(), password), user -> {
 				return DB.transaction(hibernate -> {
-
-					// hibernate.remove( shrt);
 
 					Result<Short> res = DB.deleteOne(shrt);
 					if (!res.isOK()) {
@@ -145,7 +142,14 @@ public class JavaShorts implements Shorts {
 					}
 
 					if(DB.BASE == DB.NOSQL) {
-
+						String likesQuery = format("SELECT * FROM l WHERE l.shortId = '%s'", shortId);
+						List<Likes> likesList = DB.sql(likesQuery, Likes.class);
+						for (Likes like : likesList) {
+							Result<Likes> deleteLikeRes = DB.deleteOne(like);
+							if (!deleteLikeRes.isOK()) {
+								return Result.error(deleteLikeRes.error());
+							}
+						}
 					}
 
 					else {
@@ -164,7 +168,12 @@ public class JavaShorts implements Shorts {
 	public Result<List<String>> getShorts(String userId) {
 		Log.info(() -> format("getShorts : userId = %s\n", userId));
 
-		var query = format("SELECT shortId FROM shorts WHERE ownerId = '%s'", userId);
+		String query;
+		if(DB.BASE == DB.NOSQL) {
+			query = format("SELECT VALUE s.shortId FROM s WHERE s.ownerId = '%s'", userId);
+		}
+		else
+			query = format("SELECT shortId FROM shorts WHERE ownerId = '%s'", userId);
 
 		return errorOrValue(okUser(userId), DB.sql(query, String.class));
 	}
