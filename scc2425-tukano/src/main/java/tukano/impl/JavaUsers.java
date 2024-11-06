@@ -136,7 +136,7 @@ public class JavaUsers implements Users {
 		// var query = format("SELECT * FROM User u WHERE UPPER(u.userId) LIKE '%%%s%%'", pattern.toUpperCase());
 		if (pattern == null || pattern.trim().isEmpty()) {
 			// if no pattern is provided return all users
-			String query = "SELECT * FROM user"; // get all users
+			String query = "SELECT * FROM app_user"; // get all users
 			List<AppUser> hits = DB.sql(query, AppUser.class)
 					.stream()
 					.map(AppUser::copyWithoutPassword)
@@ -145,7 +145,8 @@ public class JavaUsers implements Users {
 			return ok(hits);
 		}
 	
-		String query = format("SELECT * FROM c WHERE CONTAINS(UPPER(c.userId), '%s')", pattern.toUpperCase());
+		String query = format("SELECT * FROM app_user WHERE UPPER(userId) LIKE '%%%s%%'", pattern.toUpperCase());
+		Log.info(query);
 		List<AppUser> hits = DB.sql(query, AppUser.class)
 				.stream()
 				.map(AppUser::copyWithoutPassword)
