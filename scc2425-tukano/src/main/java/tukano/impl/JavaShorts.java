@@ -197,7 +197,7 @@ public class JavaShorts implements Shorts {
 
 		String query;
 		if(DB.BASE == DB.NOSQL)
-			query = format("SELECT follower FROM following WHERE followee = '%s'", userId);
+			query = format("SELECT VALUE f.follower FROM f WHERE f.followee = '%s'", userId);
 		else
 			query = format("SELECT follower FROM following WHERE followee = '%s'", userId);
 		return errorOrValue(okUser(userId, password), usr -> {
@@ -247,9 +247,12 @@ public class JavaShorts implements Shorts {
 
 				if(!finalLikeList.isEmpty())
 					return finalLikeList;
-				
-					//var query = format("SELECT l.userId FROM Likes l WHERE l.shortId = '%s'", shortId);
-				var query = format("SELECT userId FROM likes WHERE shortId = '%s'", shortId);
+					
+				String query;
+				if(DB.BASE == DB.NOSQL) 
+					query = format("SELECT VALUE l.userId FROM l WHERE l.shortId = '%s'", shortId);
+				else
+					query = format("SELECT userId FROM likes WHERE shortId = '%s'", shortId);
 				var likesList = DB.sql(query, String.class);
 				
 				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
