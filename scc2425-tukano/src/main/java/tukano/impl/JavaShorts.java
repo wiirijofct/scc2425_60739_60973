@@ -150,7 +150,7 @@ public class JavaShorts implements Shorts {
 
 					else {
 						var query = format("DELETE Likes l WHERE l.shortId = '%s'", shortId);
-						((Consumer<Session>) hibernate).createNativeQuery( query, Likes.class).executeUpdate();
+						((Session) hibernate).createNativeQuery( query, Likes.class).executeUpdate();
 					}
 
 					JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get());
