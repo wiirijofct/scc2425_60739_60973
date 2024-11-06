@@ -169,9 +169,8 @@ public class JavaShorts implements Shorts {
 		Log.info(() -> format("getShorts : userId = %s\n", userId));
 
 		String query;
-		if(DB.BASE == DB.NOSQL) {
+		if(DB.BASE == DB.NOSQL)
 			query = format("SELECT VALUE s.shortId FROM s WHERE s.ownerId = '%s'", userId);
-		}
 		else
 			query = format("SELECT shortId FROM shorts WHERE ownerId = '%s'", userId);
 
@@ -196,7 +195,11 @@ public class JavaShorts implements Shorts {
 	public Result<List<String>> followers(String userId, String password) {
 		Log.info(() -> format("followers : userId = %s, pwd = %s\n", userId, password));
 
-		var query = format("SELECT follower FROM following WHERE followee = '%s'", userId);
+		String query;
+		if(DB.BASE == DB.NOSQL)
+			query = format("SELECT follower FROM following WHERE followee = '%s'", userId);
+		else
+			query = format("SELECT follower FROM following WHERE followee = '%s'", userId);
 		return errorOrValue(okUser(userId, password), usr -> {
 			return DB.sql(query, String.class);
 		});

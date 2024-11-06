@@ -1,0 +1,15 @@
+# Date : 2/11/24, 15:58
+BlobStoreConnection=DefaultEndpointsProtocol=https;AccountName=sto60739northeurope;AccountKey=3WPCW00RrjB9F8i4cbaw617p8NdVxEVCUBMc4G/WEQQtgf6B5PAlhVDaBonNN5GurG+YdF+sWvs4+AStfe3zMQ==;EndpointSuffix=core.windows.net
+
+COSMOSDB_KEY=iuN0ehTm64McI6tW64efnus9lFzbNHE5l0glpUdVdDaPukjvbcO1lQExhGaPb17zkAwVTNdWBOcBACDb0vSDqA==
+COSMOSDB_URL=https://cosmos60739.documents.azure.com:443/
+COSMOSDB_DATABASE=cosmos60739
+AzureCosmosDBConnection=AccountEndpoint=https://cosmos60739.documents.azure.com:443/;AccountKey=iuN0ehTm64McI6tW64efnus9lFzbNHE5l0glpUdVdDaPukjvbcO1lQExhGaPb17zkAwVTNdWBOcBACDb0vSDqA==;
+
+REDIS_KEY=rikZpcnLxQ8kYVvhPzWo5I6WXEjTG5W7oAzCaOa5I0c=
+REDIS_URL=redis60739northeurope.redis.cache.windows.net
+
+secret=verysecretlol
+
+database:nosql
+# database:postgresql
