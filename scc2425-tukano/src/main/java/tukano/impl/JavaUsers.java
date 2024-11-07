@@ -41,6 +41,9 @@ public class JavaUsers implements Users {
 	public Result<String> createUser(AppUser user) {
 		Log.info(() -> format("createUser : %s\n", user));
 
+		System.out.println("#######################################################################");
+		System.out.println("db: " + DB.BASE);
+
 		if( badUserInfo( user ) )
 				return error(BAD_REQUEST);
 

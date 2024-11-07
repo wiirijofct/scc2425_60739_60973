@@ -126,22 +126,12 @@ public class JavaShorts implements Shorts {
 		return errorOrResult(getShort(shortId), shrt -> {
 
 			return errorOrResult(okUser(shrt.getOwnerId(), password), user -> {
-				return DB.transaction(hibernate -> {
 
-					Result<Short> res = DB.deleteOne(shrt);
-					if (!res.isOK()) {
-						return Result.error(res.error());
-					}
+				Result<Void> res;;
 
-					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-						var shortKey = SHORTS_PREFIX + shortId;
-						jedis.del(shortKey);
-
-						var likesKey = LIKES_PREFIX + shortId;
-						jedis.del(likesKey);
-					}
-
-					if(DB.BASE == DB.NOSQL) {
+				if(DB.BASE == DB.NOSQL) {
+					res = DB.noSqltransaction(hibernate -> {
+						DB.deleteOne(shrt);
 						String likesQuery = format("SELECT * FROM l WHERE l.shortId = '%s'", shortId);
 						List<Likes> likesList = DB.sql(likesQuery, Likes.class);
 						for (Likes like : likesList) {
@@ -150,16 +140,36 @@ public class JavaShorts implements Shorts {
 								return Result.error(deleteLikeRes.error());
 							}
 						}
-					}
+					
 
-					else {
-						var query = format("DELETE Likes l WHERE l.shortId = '%s'", shortId);
+						var query = format("DELETE FROM Likes WHERE shortId = '%s'", shortId);
 						((Session) hibernate).createNativeQuery( query, Likes.class).executeUpdate();
-					}
+						
 
-					JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get());
-					return Result.ok();
-				});
+						JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get());
+						return Result.ok();
+					});
+				}
+				else {
+					res = DB.transaction(hibernate -> {
+						DB.deleteOne(shrt);
+						var query = format("DELETE FROM Likes WHERE shortId = '%s'", shortId);
+						(hibernate).createNativeQuery( query, Likes.class).executeUpdate();
+
+						JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get());
+						return Result.ok();
+					});
+				}
+				if (res.isOK()) {					
+					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+						var shortKey = SHORTS_PREFIX + shortId;
+						jedis.del(shortKey);
+						
+						var likesKey = LIKES_PREFIX + shortId;
+						jedis.del(likesKey);
+					}
+				}
+				return res;
 			});
 		});
 	}
@@ -318,116 +328,121 @@ public class JavaShorts implements Shorts {
 		if (!Token.isValid(token, userId))
 			return error(FORBIDDEN);
 	
-		return DB.transaction((cosmos) -> {
-			List<String> errors = new ArrayList<>();
-	
-			// Delete shorts
-			String deleteShortsQuery;
-			if(DB.BASE == DB.NOSQL) {
-
-				deleteShortsQuery = format("SELECT * FROM s WHERE s.ownerId = '%s'", userId);
-				
-				List<Short> shortsList = DB.sql(deleteShortsQuery, Short.class);
-	
-				List<Short> shortsToDelete = new ArrayList<>(shortsList);
-				Log.info(() -> "shortsToDelete: " + shortsToDelete);
+		if(DB.BASE == DB.NOSQL) {
+			return DB.transaction((cosmos) -> {
+				List<String> errors = new ArrayList<>();
 		
-				for (Short shortObj : shortsToDelete) {
-					try {
-						Result<Short> deleteShortRes = DB.deleteOne(shortObj);
-						if (!deleteShortRes.isOK()) {
-							String errorMessage = format("Error deleting short %s: %s", shortObj.getShortId(), deleteShortRes.error());
-							Log.severe(() -> errorMessage);
-							errors.add(errorMessage);
-						} else {
-							try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-								var shortKey = SHORTS_PREFIX + shortObj.getShortId();
-								jedis.del(shortKey);
+				// Delete shorts
+				String deleteShortsQuery;
+				if(DB.BASE == DB.NOSQL) {
 
-								var likesKey = LIKES_PREFIX + shortObj.getShortId();
-								jedis.del(likesKey);
-								
-							} catch (Exception e) {
-								String redisError = format("Error deleting short from Redis with ID: %s, Exception: %s", shortObj.getShortId(), e.getMessage());
-								Log.severe(() -> redisError);
-								errors.add(redisError);
+					deleteShortsQuery = format("SELECT * FROM s WHERE s.ownerId = '%s'", userId);
+					
+					List<Short> shortsList = DB.sql(deleteShortsQuery, Short.class);
+		
+					List<Short> shortsToDelete = new ArrayList<>(shortsList);
+					Log.info(() -> "shortsToDelete: " + shortsToDelete);
+			
+					for (Short shortObj : shortsToDelete) {
+						try {
+							Result<Short> deleteShortRes = DB.deleteOne(shortObj);
+							if (!deleteShortRes.isOK()) {
+								String errorMessage = format("Error deleting short %s: %s", shortObj.getShortId(), deleteShortRes.error());
+								Log.severe(() -> errorMessage);
+								errors.add(errorMessage);
+							} else {
+								try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+									var shortKey = SHORTS_PREFIX + shortObj.getShortId();
+									jedis.del(shortKey);
+
+									var likesKey = LIKES_PREFIX + shortObj.getShortId();
+									jedis.del(likesKey);
+									
+								} catch (Exception e) {
+									String redisError = format("Error deleting short from Redis with ID: %s, Exception: %s", shortObj.getShortId(), e.getMessage());
+									Log.severe(() -> redisError);
+									errors.add(redisError);
+								}
 							}
-						}
-					} catch (Exception e) {
-						String errorMessage = format("Exception while deleting short with ID: %s, Exception: %s", shortObj.getShortId(), e.getMessage());
-						Log.severe(() -> errorMessage);
-						errors.add(errorMessage);
-					}
-				}
-			}
-			else {	
-				deleteShortsQuery = format("DELETE * FROM shorts WHERE ownerId = '%s'", userId);
-				((Session) cosmos).createNativeQuery( deleteShortsQuery, Short.class).executeUpdate();
-			}
-	
-			Log.info("Finished deleting shorts");
-	
-			// Delete follows
-			if(DB.BASE == DB.NOSQL) {
-				String deleteFollowsQuery = format(
-					"SELECT * FROM following WHERE follower = '%s' OR followee = '%s'", userId, userId);
-				List<Following> followsList = DB.sql(deleteFollowsQuery, Following.class);
-		
-				for (Following follow : followsList) {
-					try {
-						Result<Following> deleteFollowRes = DB.deleteOne(follow);
-						if (!deleteFollowRes.isOK()) {
-							String errorMessage = format("Error deleting follow %s: %s", follow.getId(), deleteFollowRes.error());
+						} catch (Exception e) {
+							String errorMessage = format("Exception while deleting short with ID: %s, Exception: %s", shortObj.getShortId(), e.getMessage());
 							Log.severe(() -> errorMessage);
 							errors.add(errorMessage);
 						}
-					} catch (Exception e) {
-						String errorMessage = format("Exception while deleting follow with ID: %s, Exception: %s", follow.getId(), e.getMessage());
-						Log.severe(() -> errorMessage);
-						errors.add(errorMessage);
 					}
 				}
+				
 		
-				Log.info("Finished deleting follows");
-			}
-			else {
-				String deleteFollowsQuery = format("DELETE Following f WHERE f.follower = '%s' OR f.followee = '%s'", userId, userId);
-				((Session) cosmos).createNativeQuery( deleteFollowsQuery, Following.class).executeUpdate();
-			}
-	
-			// Delete likes
-			if(DB.BASE == DB.NOSQL) {
-				String deleteLikesQuery = format("SELECT * FROM likes WHERE userId = '%s'", userId);
-				List<Likes> likesList = DB.sql(deleteLikesQuery, Likes.class);
+				Log.info("Finished deleting shorts");
 		
-				for (Likes like : likesList) {
-					try {
-						Result<Likes> deleteLikeRes = DB.deleteOne(like);
-						if (!deleteLikeRes.isOK()) {
-							String errorMessage = format("Error deleting like %s: %s", like.getUserId(), deleteLikeRes.error());
+				// Delete follows
+				if(DB.BASE == DB.NOSQL) {
+					String deleteFollowsQuery = format(
+						"SELECT * FROM following WHERE follower = '%s' OR followee = '%s'", userId, userId);
+					List<Following> followsList = DB.sql(deleteFollowsQuery, Following.class);
+			
+					for (Following follow : followsList) {
+						try {
+							Result<Following> deleteFollowRes = DB.deleteOne(follow);
+							if (!deleteFollowRes.isOK()) {
+								String errorMessage = format("Error deleting follow %s: %s", follow.getId(), deleteFollowRes.error());
+								Log.severe(() -> errorMessage);
+								errors.add(errorMessage);
+							}
+						} catch (Exception e) {
+							String errorMessage = format("Exception while deleting follow with ID: %s, Exception: %s", follow.getId(), e.getMessage());
 							Log.severe(() -> errorMessage);
 							errors.add(errorMessage);
 						}
-					} catch (Exception e) {
-						String errorMessage = format("Exception while deleting like with ID: %s, Exception: %s", like.getUserId(), e.getMessage());
-						Log.severe(() -> errorMessage);
-						errors.add(errorMessage);
+					}
+			
+					Log.info("Finished deleting follows");
+				}
+				else {
+					String deleteFollowsQuery = format("DELETE FROM Following WHERE follower = '%s' OR followee = '%s'", userId, userId);
+					((Session) cosmos).createNativeQuery( deleteFollowsQuery, Following.class).executeUpdate();
+				}
+		
+				// Delete likes
+				if(DB.BASE == DB.NOSQL) {
+					String deleteLikesQuery = format("SELECT * FROM likes WHERE userId = '%s'", userId);
+					List<Likes> likesList = DB.sql(deleteLikesQuery, Likes.class);
+			
+					for (Likes like : likesList) {
+						try {
+							Result<Likes> deleteLikeRes = DB.deleteOne(like);
+							if (!deleteLikeRes.isOK()) {
+								String errorMessage = format("Error deleting like %s: %s", like.getUserId(), deleteLikeRes.error());
+								Log.severe(() -> errorMessage);
+								errors.add(errorMessage);
+							}
+						} catch (Exception e) {
+							String errorMessage = format("Exception while deleting like with ID: %s, Exception: %s", like.getUserId(), e.getMessage());
+							Log.severe(() -> errorMessage);
+							errors.add(errorMessage);
+						}
 					}
 				}
-			}
-			else {
-				String deleteLikesQuery = format("DELETE From Likes WHERE userId = '%s'", userId);
-				((Session) cosmos).createNativeQuery( deleteLikesQuery, Likes.class).executeUpdate();
-			}
-			Log.info("Finished deleting likes");
-	
-			if (!errors.isEmpty()) {
-				Log.severe(() -> "Errors occurred during deletion: " + errors);
-				return Result.error(Result.ErrorCode.INTERNAL_ERROR);
-			}
-	
-			return Result.ok();
-		});
+				else {
+					String deleteLikesQuery = format("DELETE From Likes WHERE userId = '%s'", userId);
+					((Session) cosmos).createNativeQuery( deleteLikesQuery, Likes.class).executeUpdate();
+				}
+				Log.info("Finished deleting likes");
+		
+				if (!errors.isEmpty()) {
+					Log.severe(() -> "Errors occurred during deletion: " + errors);
+					return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+				}
+		
+				return Result.ok();
+			});
+		}
+		else {
+			return DB.transaction((postgre) -> {
+				var deleteShortsQuery = format("DELETE FROM shorts WHERE ownerId = '%s'", userId);
+				postgre.createNativeQuery( deleteShortsQuery, Short.class).executeUpdate();
+			});
+		}
 	}
 	
 }

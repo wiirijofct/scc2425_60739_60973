@@ -11,5 +11,5 @@ REDIS_URL=redis60739northeurope.redis.cache.windows.net
 
 secret=verysecretlol
 
-database:nosql
-# database:postgresql
+# database:nosql
+database:postgresql

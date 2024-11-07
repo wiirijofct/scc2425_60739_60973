@@ -57,26 +57,34 @@ public class DB {
 			return Result.errorOrValue(Hibernate.getInstance().persistOne(obj), obj);
 	}
 
-	public static <T> Result<T> transaction( Consumer<Object> c) {
-		if(BASE == NOSQL)
-			return CosmosDB.getInstance().execute( c::accept );
-		else
-			return Hibernate.getInstance().execute( c::accept );
+	// public static <T> Result<T> transaction( Consumer<Object> c) {
+	// 	if(BASE == NOSQL)
+	// 		return CosmosDB.getInstance().execute( c::accept );
+	// 	else
+	// 		return Hibernate.getInstance().execute( c::accept );
+	// }
+
+	// @SuppressWarnings("unchecked")
+	// public static <T> Result<T> transaction( Function<Object, Result<T>> func) {
+	// 	if(BASE == NOSQL)
+	// 		return CosmosDB.getInstance().execute( (Consumer<CosmosDatabase>) func );
+	// 	else
+	// 		return Hibernate.getInstance().execute( (Consumer<Session>) func );
+	// }
+	
+	public static <T> Result<T> transaction( Consumer<Session> c) {
+		return Hibernate.getInstance().execute( c::accept );
+	}
+	
+	public static <T> Result<T> transaction( Function<Session, Result<T>> func) {
+		return Hibernate.getInstance().execute( func );
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> Result<T> transaction( Function<Object, Result<T>> func) {
-		if(BASE == NOSQL)
-			return CosmosDB.getInstance().execute( (Consumer<CosmosDatabase>) func );
-		else
-			return Hibernate.getInstance().execute( (Consumer<Session>) func );
+	public static <T> Result<T> noSqltransaction( Consumer<CosmosDatabase> c) {
+		return CosmosDB.getInstance().execute( c::accept );
+		}
+	
+	public static <T> Result<T> noSqltransaction( Function<CosmosDatabase, Result<T>> func) {
+		return CosmosDB.getInstance().execute( func );
 	}
-	
-	// public static <T> Result<T> transaction( Consumer<Session> c) {
-	// 	return Hibernate.getInstance().execute( c::accept );
-	// }
-	
-	// public static <T> Result<T> transaction( Function<Session, Result<T>> func) {
-	// 	return Hibernate.getInstance().execute( func );
-	// }
 }
