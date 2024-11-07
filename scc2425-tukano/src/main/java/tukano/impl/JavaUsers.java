@@ -137,6 +137,13 @@ public class JavaUsers implements Users {
 		Log.info( () -> format("searchUsers : patterns = %s\n", pattern));
 
 		// var query = format("SELECT * FROM User u WHERE UPPER(u.userId) LIKE '%%%s%%'", pattern.toUpperCase());
+		if(DB.BASE == DB.NOSQL)
+			return searchNoSqlUsers(pattern);
+		else
+			return searchPostrgeUsers(pattern);
+	}
+	
+	private Result<List<AppUser>> searchPostrgeUsers(String pattern) {
 		if (pattern == null || pattern.trim().isEmpty()) {
 			// if no pattern is provided return all users
 			String query = "SELECT * FROM app_user"; // get all users
@@ -156,6 +163,10 @@ public class JavaUsers implements Users {
 				.toList();
 	
 		return ok(hits);
+	}
+
+	private Result<List<AppUser>> searchNoSqlUsers(String pattern) {
+
 	}
 
 	
