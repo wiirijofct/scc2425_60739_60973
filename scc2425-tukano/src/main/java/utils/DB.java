@@ -12,46 +12,51 @@ import tukano.api.Result;
 
 public class DB {
 
-	public static final String BASE = Props.get("database", "error");
+	public static final String BASE = Props.get("database", "error").trim();
 	public static final String NOSQL = "nosql";
 
 	public static <T> List<T> sql(String query, Class<T> clazz) {
-		if(BASE == NOSQL)
+		if(BASE.equals(NOSQL))
 			return CosmosDB.getInstance().sql(query, clazz);
 		else
 			return Hibernate.getInstance().sql(query, clazz);
 	}
 	
 	public static <T> List<T> sql(Class<T> clazz, String fmt, Object ... args) {
-		if(BASE == NOSQL)
+		if(BASE.equals(NOSQL))
 			return CosmosDB.getInstance().sql(String.format(fmt, args), clazz);
 		else
 			return Hibernate.getInstance().sql(String.format(fmt, args), clazz);
 	}
 	
 	public static <T> Result<T> getOne(String id, Class<T> clazz) {
-		if(BASE == NOSQL)
+		if(BASE.equals(NOSQL))
 			return CosmosDB.getInstance().getOne(id, clazz);
 		else
 			return Hibernate.getInstance().getOne(id, clazz);
 	}
 	
 	public static <T> Result<T> deleteOne(T obj) {
-		if(BASE == NOSQL)
+		if(BASE.equals(NOSQL))
 			return CosmosDB.getInstance().deleteOne(obj);
 		else
 			return Hibernate.getInstance().deleteOne(obj);
 	}
 	
 	public static <T> Result<T> updateOne(T obj) {
-		if(BASE == NOSQL)
+		if(BASE.equals(NOSQL))
 			return CosmosDB.getInstance().updateOne(obj);
 		else
 			return Hibernate.getInstance().updateOne(obj);
 	}
 	
 	public static <T> Result<T> insertOne( T obj) {
-		if(BASE == NOSQL)
+		System.out.println("#######################################################################");
+		System.out.println("db: " + BASE + "&&&");
+		System.out.println("nosql: " + NOSQL + "&&&");
+		System.out.println(BASE == NOSQL);
+
+		if(BASE.equals(NOSQL))
 			return Result.errorOrValue(CosmosDB.getInstance().persistOne(obj), obj);
 		else
 			return Result.errorOrValue(Hibernate.getInstance().persistOne(obj), obj);

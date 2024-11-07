@@ -1,3 +1,4 @@
+tukano/api/User.class
 utils/TLS.class
 tukano/impl/storage/FilesystemStorage.class
 tukano/impl/rest/RestResource.class
@@ -48,7 +49,6 @@ tukano/impl/data/Likes.class
 tukano/clients/rest/RestShortsClient$4.class
 utils/TryCatch$ThrowableSupplier.class
 tukano/impl/JavaBlobs.class
-tukano/api/AppUser.class
 tukano/api/Shorts.class
 tukano/impl/rest/RestResource$1.class
 tukano/impl/rest/RestShortsResource.class

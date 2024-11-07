@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import org.hibernate.Session;
 
 import redis.clients.jedis.Jedis;
-import tukano.api.AppUser;
+import tukano.api.User;
 import tukano.api.Blobs;
 import tukano.api.Result;
 import static tukano.api.Result.ErrorCode.BAD_REQUEST;
@@ -105,7 +105,7 @@ public class JavaShorts implements Shorts {
 		// If the likes arent in the cache, they are fetched from the database
 		if (likesCount == -1) {
 			String query;
-			if(DB.BASE == DB.NOSQL)
+			if(DB.BASE.equals(DB.NOSQL))
 				query = format("SELECT VALUE COUNT(1) FROM l WHERE l.shortId = '%s'", shortId);
 			else
 				query = format("SELECT COUNT(*) FROM likes WHERE shortId = '%s'", shortId);
@@ -154,7 +154,7 @@ public class JavaShorts implements Shorts {
 			return errorOrResult(okUser(shrt.getOwnerId(), password), user -> {
 
 				Result<Void> res;;
-				if(DB.BASE == DB.NOSQL)
+				if(DB.BASE.equals(DB.NOSQL))
 					res = deleShortInNoSql(shrt);
 				else
 					res = deleteShortInPostgres(shrt);
@@ -260,7 +260,7 @@ public class JavaShorts implements Shorts {
 					return finalLikeList;
 					
 				String query;	
-				if(DB.BASE == DB.NOSQL) 
+				if(DB.BASE.equals(DB.NOSQL)) 
 					query = format("SELECT VALUE l.userId FROM l WHERE l.shortId = '%s'", shortId);
 				else
 					query = format("SELECT userId FROM likes WHERE shortId = '%s'", shortId);
@@ -308,7 +308,7 @@ public class JavaShorts implements Shorts {
 		});
 	}
 
-	protected Result<AppUser> okUser(String userId, String pwd) {
+	protected Result<User> okUser(String userId, String pwd) {
 		return JavaUsers.getInstance().getUser(userId, pwd);
 	}
 
@@ -391,7 +391,7 @@ public class JavaShorts implements Shorts {
 		if (!Token.isValid(token, userId))
 			return error(FORBIDDEN);
 	
-		if(DB.BASE == DB.NOSQL)
+		if(DB.BASE.equals(DB.NOSQL))
 			return deleteAllNoSqlShorts(userId);
 		else
 			return deleteAllPostgreShorts(userId);

@@ -13,7 +13,7 @@ import static tukano.api.Result.error;
 import static tukano.api.Result.errorOrResult;
 import static tukano.api.Result.errorOrValue;
 import static tukano.api.Result.ok;
-import tukano.api.AppUser;
+import tukano.api.User;
 import tukano.api.Users;
 import utils.DB;
 import utils.JSON;
@@ -38,7 +38,7 @@ public class JavaUsers implements Users {
 	private JavaUsers() {}
 	
 	@Override
-	public Result<String> createUser(AppUser user) {
+	public Result<String> createUser(User user) {
 		Log.info(() -> format("createUser : %s\n", user));
 
 		System.out.println("#######################################################################");
@@ -59,7 +59,7 @@ public class JavaUsers implements Users {
 	}
 
 	@Override
-	public Result<AppUser> getUser(String userId, String pwd) {
+	public Result<User> getUser(String userId, String pwd) {
 		Log.info( () -> format("getUser : userId = %s, pwd = %s\n", userId, pwd));
 
 		if (userId == null)
@@ -69,15 +69,15 @@ public class JavaUsers implements Users {
 			var key = USERS_PREFIX + userId;
 			var val =jedis.get(key);
 			if (val != null) {
-				var user = JSON.decode(val, AppUser.class);
+				var user = JSON.decode(val, User.class);
 				return validatedUserOrError( ok(user), pwd);
 			}
 		}
-		return validatedUserOrError( DB.getOne( userId, AppUser.class), pwd);
+		return validatedUserOrError( DB.getOne( userId, User.class), pwd);
 	}
 
 	@Override
-	public Result<AppUser> updateUser(String userId, String pwd, AppUser other) {
+	public Result<User> updateUser(String userId, String pwd, User other) {
 		Log.info(() -> format("updateUser : userId = %s, pwd = %s, user: %s\n", userId, pwd, other));
 
 		if (badUpdateUserInfo(userId, pwd, other))
@@ -87,7 +87,7 @@ public class JavaUsers implements Users {
 			var key = USERS_PREFIX + userId;
 			var val =jedis.get(key);
 			if (val != null) {
-				var user = JSON.decode(val, AppUser.class);
+				var user = JSON.decode(val, User.class);
 				var userIs = validatedUserOrError( ok(user), pwd);
 				if (userIs.isOK()) {
 					jedis.set(key, JSON.encode(other));
@@ -95,22 +95,22 @@ public class JavaUsers implements Users {
 				return errorOrResult( userIs, usr -> DB.updateOne( user.updateFrom(other)));
 			}
 		}
-		return errorOrResult( validatedUserOrError(DB.getOne( userId, AppUser.class), pwd), user -> DB.updateOne( user.updateFrom(other)));
+		return errorOrResult( validatedUserOrError(DB.getOne( userId, User.class), pwd), user -> DB.updateOne( user.updateFrom(other)));
 	}
 
 	@Override
-	public Result<AppUser> deleteUser(String userId, String pwd) {
+	public Result<User> deleteUser(String userId, String pwd) {
 		Log.info(() -> format("deleteUser : userId = %s, pwd = %s\n", userId, pwd));
 
 		if (userId == null || pwd == null )
 			return error(BAD_REQUEST);
 
-		Result<AppUser> userIsOk = null;
+		Result<User> userIsOk = null;
 		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
 			var key = USERS_PREFIX + userId;
 			var val =jedis.get(key);
 			if (val != null) {
-				var user = JSON.decode(val, AppUser.class);
+				var user = JSON.decode(val, User.class);
 				userIsOk = validatedUserOrError( ok(user), pwd);
 				if (userIsOk.isOK()) {
 					jedis.del(key);
@@ -118,7 +118,7 @@ public class JavaUsers implements Users {
 			}
 		}
 		if (userIsOk == null)
-			userIsOk = validatedUserOrError(DB.getOne( userId, AppUser.class), pwd);
+			userIsOk = validatedUserOrError(DB.getOne( userId, User.class), pwd);
 
 		return errorOrResult( userIsOk, user -> {
 
@@ -133,23 +133,23 @@ public class JavaUsers implements Users {
 	}
 
 	@Override
-	public Result<List<AppUser>> searchUsers(String pattern) {
+	public Result<List<User>> searchUsers(String pattern) {
 		Log.info( () -> format("searchUsers : patterns = %s\n", pattern));
 
 		// var query = format("SELECT * FROM User u WHERE UPPER(u.userId) LIKE '%%%s%%'", pattern.toUpperCase());
-		if(DB.BASE == DB.NOSQL)
+		if(DB.BASE.equals(DB.NOSQL))
 			return searchNoSqlUsers(pattern);
 		else
 			return searchPostrgeUsers(pattern);
 	}
 	
-	private Result<List<AppUser>> searchPostrgeUsers(String pattern) {
+	private Result<List<User>> searchPostrgeUsers(String pattern) {
 		if (pattern == null || pattern.trim().isEmpty()) {
 			// if no pattern is provided return all users
 			String query = "SELECT * FROM app_user"; // get all users
-			List<AppUser> hits = DB.sql(query, AppUser.class)
+			List<User> hits = DB.sql(query, User.class)
 					.stream()
-					.map(AppUser::copyWithoutPassword)
+					.map(User::copyWithoutPassword)
 					.toList();
 	
 			return ok(hits);
@@ -157,31 +157,49 @@ public class JavaUsers implements Users {
 	
 		String query = format("SELECT * FROM app_user WHERE UPPER(userId) LIKE '%%%s%%'", pattern.toUpperCase());
 		Log.info(query);
-		List<AppUser> hits = DB.sql(query, AppUser.class)
+		List<User> hits = DB.sql(query, User.class)
 				.stream()
-				.map(AppUser::copyWithoutPassword)
+				.map(User::copyWithoutPassword)
 				.toList();
 	
 		return ok(hits);
 	}
 
-	private Result<List<AppUser>> searchNoSqlUsers(String pattern) {
-
+	private Result<List<User>> searchNoSqlUsers(String pattern) {
+		// var query = format("SELECT * FROM User u WHERE UPPER(u.userId) LIKE '%%%s%%'", pattern.toUpperCase());
+		if (pattern == null || pattern.trim().isEmpty()) {
+			// if no pattern is provided return all users
+			String query = "SELECT * FROM user"; // get all users
+			List<User> hits = DB.sql(query, User.class)
+					.stream()
+					.map(User::copyWithoutPassword)
+					.toList();
+	
+			return ok(hits);
+		}
+	
+		String query = format("SELECT * FROM u WHERE CONTAINS(UPPER(u.userId), '%s')", pattern.toUpperCase());
+		List<User> hits = DB.sql(query, User.class)
+				.stream()
+				.map(User::copyWithoutPassword)
+				.toList();
+	
+		return ok(hits);
 	}
 
 	
-	private Result<AppUser> validatedUserOrError( Result<AppUser> res, String pwd ) {
+	private Result<User> validatedUserOrError( Result<User> res, String pwd ) {
 		if( res.isOK())
 			return res.value().getPwd().equals( pwd ) ? res : error(FORBIDDEN);
 		else
 			return res;
 	}
 	
-	private boolean badUserInfo( AppUser user) {
+	private boolean badUserInfo( User user) {
 		return (user.userId() == null || user.pwd() == null || user.displayName() == null || user.email() == null);
 	}
 	
-	private boolean badUpdateUserInfo( String userId, String pwd, AppUser info) {
+	private boolean badUpdateUserInfo( String userId, String pwd, User info) {
 		return (userId == null || pwd == null || info.getUserId() != null && ! userId.equals( info.getUserId()));
 	}
 }
