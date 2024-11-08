@@ -41,6 +41,9 @@ public class JavaUsers implements Users {
 	public Result<String> createUser(User user) {
 		Log.info(() -> format("createUser : %s\n", user));
 
+		System.out.println("#######################################################################");
+		System.out.println("db: " + DB.BASE);
+
 		if( badUserInfo( user ) )
 				return error(BAD_REQUEST);
 
@@ -134,6 +137,36 @@ public class JavaUsers implements Users {
 		Log.info( () -> format("searchUsers : patterns = %s\n", pattern));
 
 		// var query = format("SELECT * FROM User u WHERE UPPER(u.userId) LIKE '%%%s%%'", pattern.toUpperCase());
+		if(DB.BASE.equals(DB.NOSQL))
+			return searchNoSqlUsers(pattern);
+		else
+			return searchPostrgeUsers(pattern);
+	}
+	
+	private Result<List<User>> searchPostrgeUsers(String pattern) {
+		if (pattern == null || pattern.trim().isEmpty()) {
+			// if no pattern is provided return all users
+			String query = "SELECT * FROM app_user"; // get all users
+			List<User> hits = DB.sql(query, User.class)
+					.stream()
+					.map(User::copyWithoutPassword)
+					.toList();
+	
+			return ok(hits);
+		}
+	
+		String query = format("SELECT * FROM app_user WHERE UPPER(userId) LIKE '%%%s%%'", pattern.toUpperCase());
+		Log.info(query);
+		List<User> hits = DB.sql(query, User.class)
+				.stream()
+				.map(User::copyWithoutPassword)
+				.toList();
+	
+		return ok(hits);
+	}
+
+	private Result<List<User>> searchNoSqlUsers(String pattern) {
+		// var query = format("SELECT * FROM User u WHERE UPPER(u.userId) LIKE '%%%s%%'", pattern.toUpperCase());
 		if (pattern == null || pattern.trim().isEmpty()) {
 			// if no pattern is provided return all users
 			String query = "SELECT * FROM user"; // get all users
@@ -145,7 +178,7 @@ public class JavaUsers implements Users {
 			return ok(hits);
 		}
 	
-		String query = format("SELECT * FROM c WHERE CONTAINS(UPPER(c.userId), '%s')", pattern.toUpperCase());
+		String query = format("SELECT * FROM u WHERE CONTAINS(UPPER(u.userId), '%s')", pattern.toUpperCase());
 		List<User> hits = DB.sql(query, User.class)
 				.stream()
 				.map(User::copyWithoutPassword)

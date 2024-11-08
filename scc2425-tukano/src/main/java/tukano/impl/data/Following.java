@@ -2,11 +2,18 @@ package tukano.impl.data;
 
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "following")
 public class Following{
 
 	// This is used to create id so there isnt a chance to exist two following with the same id
 	private static final String DIFFERENTIATIOR = "arhmop";
 
+	@Id
 	String id;
 
 	String follower;

@@ -1,0 +1,6 @@
+/home/giga/Documents/7Semestre/SCC/scc2425-lab5-code(1)/scc2425-lab5/src/main/java/scc/data/User.java
+/home/giga/Documents/7Semestre/SCC/scc2425-lab5-code(1)/scc2425-lab5/src/main/java/scc/serverless/BlobStoreFunction.java
+/home/giga/Documents/7Semestre/SCC/scc2425-lab5-code(1)/scc2425-lab5/src/main/java/scc/serverless/CosmosDBFunction.java
+/home/giga/Documents/7Semestre/SCC/scc2425-lab5-code(1)/scc2425-lab5/src/main/java/scc/serverless/HttpFunction.java
+/home/giga/Documents/7Semestre/SCC/scc2425-lab5-code(1)/scc2425-lab5/src/main/java/scc/serverless/TimerFunction.java
+/home/giga/Documents/7Semestre/SCC/scc2425-lab5-code(1)/scc2425-lab5/src/main/java/scc/utils/GSON.java

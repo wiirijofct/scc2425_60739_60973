@@ -2,10 +2,17 @@ package tukano.impl.data;
 
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "likes")
 public class Likes {
 
 	private static final String DIFFERENTIATOR = "awcrtmuh";
 	
+	@Id
 	String id;
 
 	String userId;

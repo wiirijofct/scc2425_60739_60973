@@ -5,8 +5,8 @@ import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.Random;
 
-import tukano.api.Result;
 import tukano.api.User;
+import tukano.api.Result;
 import tukano.clients.rest.RestBlobsClient;
 import tukano.clients.rest.RestShortsClient;
 import tukano.clients.rest.RestUsersClient;

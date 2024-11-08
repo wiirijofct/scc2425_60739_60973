@@ -20,7 +20,7 @@ public class TukanoRestServer extends Application{
 	static final String INETADDR_ANY = "0.0.0.0";
 	static String SERVER_BASE_URI = "http://%s:%s/rest";
 
-	static final String PROPS_FILE = "azurekeys-region.props";
+	static final String PROPS_FILE = "azurekeys-northeurope.props";
 
 	public static final int PORT = 8080;
 

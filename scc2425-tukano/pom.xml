@@ -11,8 +11,7 @@
 		<authors>xxxxx-xxxxx</authors>
 	</properties>
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/main/test</testSourceDirectory>
+		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -64,6 +63,33 @@
 				<configuration>
 					<warSourceDirectory>${project.basedir}/src/main/webapp</warSourceDirectory>
 				</configuration>
+			</plugin>
+            <plugin>
+				<groupId>com.microsoft.azure</groupId>
+				<artifactId>azure-webapp-maven-plugin</artifactId>
+				<version>2.13.0</version>
+			    <configuration>
+			        <schemaVersion>v2</schemaVersion>
+			        <resourceGroup>rg60739-northeurope</resourceGroup>
+			        <appName>rg60739-northeurope</appName>
+			        <pricingTier>F1</pricingTier>
+			        <region>northeurope</region>
+			        <runtime>
+			            <os>Linux</os>
+			            <javaVersion>Java 17</javaVersion>
+			            <webContainer>Tomcat 10.0</webContainer>
+			        </runtime>
+			        <deployment>
+			            <resources>
+			                <resource>
+			                    <directory>${project.basedir}/target</directory>
+			                    <includes>
+			                        <include>*.war</include>
+			                    </includes>
+			                </resource>
+			            </resources>
+			        </deployment>
+			    </configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -186,5 +212,15 @@
         <version>6.0.0</version>
         <scope>provided</scope>
     </dependency>
+
+    <!-- PostgreSQL JDBC dependency -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.7.4</version>
+    </dependency>
+    
+
+
 </dependencies>
 </project>

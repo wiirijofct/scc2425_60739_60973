@@ -1,0 +1,14 @@
+{
+  "scriptFile" : "../scc2425-lab5-1.0.jar",
+  "entryPoint" : "scc.serverless.CosmosDBFunction.run",
+  "bindings" : [ {
+    "type" : "cosmosDBTrigger",
+    "direction" : "in",
+    "name" : "CosmosDBTriggerTest",
+    "createLeaseContainerIfNotExists" : true,
+    "databaseName" : "cosmosdb2163",
+    "containerName" : "users",
+    "connection" : "AzureCosmosDBConnection",
+    "leaseContainerName" : "leases"
+  } ]
+}

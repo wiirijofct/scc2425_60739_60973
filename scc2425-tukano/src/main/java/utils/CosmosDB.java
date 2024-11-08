@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.azure.cosmos.ConsistencyLevel;
 import com.azure.cosmos.CosmosClient;
@@ -53,6 +54,12 @@ public class CosmosDB {
         return instance;
     }
 
+    public static String formatListForSqlInClause(List<String> elements) {
+        return elements.stream()
+                .map(element -> "\"" + element + "\"") // Wrap each element in double quotes
+                .collect(Collectors.joining(", ", "(", ")")); // Join with commas, add parentheses
+    }
+
     public Result<Void> persistOne(Object obj) {
         try {
             CosmosContainer cosmosContainer = getContainerForClass(obj.getClass());
@@ -88,6 +95,7 @@ public class CosmosDB {
     
     public <T> Result<T> getOne(String id, Class<T> clazz) {
         try {
+            System.out.println("GETTING ONE FROM THE COSMOS DB ");
             CosmosContainer cosmosContainer = getContainerForClass(clazz);
             CosmosItemResponse<T> response = cosmosContainer.readItem(id, new PartitionKey(id), new CosmosItemRequestOptions(), clazz);
             return Result.ok(response.getItem());

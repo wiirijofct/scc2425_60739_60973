@@ -1,0 +1,11 @@
+{
+  "scriptFile" : "../scc2425-lab5-1.0.jar",
+  "entryPoint" : "scc.serverless.ViewCountFunction.IncrementViews",
+  "bindings" : [ {
+    "type" : "httpTrigger",
+    "direction" : "in",
+    "name" : "req",
+    "methods" : [ "GET" ],
+    "authLevel" : "FUNCTION"
+  } ]
+}
