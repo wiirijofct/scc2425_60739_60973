@@ -329,7 +329,7 @@ public class JavaShorts implements Shorts {
 	}
 
 	private Result<Void> deleteAllNoSqlShorts(String userId) {
-			return DB.transaction((cosmos) -> {
+			return DB.noSqltransaction((cosmos) -> {
 		
 				// Delete shorts
 				String deleteShortsQuery = format("SELECT * FROM s WHERE s.ownerId = '%s'", userId);
@@ -337,6 +337,8 @@ public class JavaShorts implements Shorts {
 				List<Short> shortsToDelete = new ArrayList<>(shortsList);
 		
 				for (Short shortObj : shortsToDelete) {
+					System.out.println("Deleting short: ");
+					System.out.println(shortObj.toString());
 					Result<Short> deleteShortRes = DB.deleteOne(shortObj);
 					if (RedisCache.isEnabled() && deleteShortRes.isOK()) {
 						try (Jedis jedis = RedisCache.getCachePool().getResource()) {
@@ -356,8 +358,11 @@ public class JavaShorts implements Shorts {
 					"SELECT * FROM f WHERE f.follower = '%s' OR f.followee = '%s'", userId, userId);
 				List<Following> followsList = DB.sql(deleteFollowsQuery, Following.class);
 		
-				for (Following follow : followsList)
+				for (Following follow : followsList){
+					System.out.println("Deleting following: ");
+					System.out.println(follow.toString());
 					DB.deleteOne(follow);
+				}
 		
 				Log.info("Finished deleting follows");
 				
@@ -397,8 +402,8 @@ public class JavaShorts implements Shorts {
 	public Result<Void> deleteAllShorts(String userId, String password, String token) {
 		Log.info(() -> format("deleteAllShorts : userId = %s, password = %s, token = %s\n", userId, password, token));
 	
-		if (!Token.isValid(token, userId))
-			return error(FORBIDDEN);
+		// if (!Token.isValid(token, userId))
+		// 	return error(FORBIDDEN);
 	
 		if(DB.BASE.equals(DB.NOSQL))
 			return deleteAllNoSqlShorts(userId);
