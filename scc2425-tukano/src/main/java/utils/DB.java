@@ -51,11 +51,6 @@ public class DB {
 	}
 	
 	public static <T> Result<T> insertOne( T obj) {
-		System.out.println("#######################################################################");
-		System.out.println("db: " + BASE + "&&&");
-		System.out.println("nosql: " + NOSQL + "&&&");
-		System.out.println(BASE == NOSQL);
-
 		if(BASE.equals(NOSQL))
 			return Result.errorOrValue(CosmosDB.getInstance().persistOne(obj), obj);
 		else

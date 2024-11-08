@@ -38,8 +38,8 @@ public class JavaShorts implements Shorts {
 
 	private static Shorts instance;
 
-	private static final int SHORT_TTL = 29; // 5 seconds
-	private static final int LIKE_LIST_TTL = 15; // 3 seconds
+	private static final int SHORT_TTL = 5; // 5 seconds
+	private static final int LIKE_LIST_TTL = 3; // 3 seconds
 
 	private static final String SHORTS_PREFIX = "shorts:";
 	private static final String LIKES_PREFIX = "likers:";
@@ -180,7 +180,7 @@ public class JavaShorts implements Shorts {
 		Log.info(() -> format("getShorts : userId = %s\n", userId));
 
 		String query;
-		if(DB.BASE == DB.NOSQL)
+		if(DB.BASE.equals(DB.NOSQL))
 			query = format("SELECT VALUE s.shortId FROM s WHERE s.ownerId = '%s'", userId);
 		else
 			query = format("SELECT shortId FROM shorts WHERE ownerId = '%s'", userId);
@@ -207,7 +207,7 @@ public class JavaShorts implements Shorts {
 		Log.info(() -> format("followers : userId = %s, pwd = %s\n", userId, password));
 
 		String query;
-		if(DB.BASE == DB.NOSQL)
+		if(DB.BASE.equals(DB.NOSQL))
 			query = format("SELECT VALUE f.follower FROM f WHERE f.followee = '%s'", userId);
 		else
 			query = format("SELECT follower FROM following WHERE followee = '%s'", userId);
@@ -284,7 +284,7 @@ public class JavaShorts implements Shorts {
 		return errorOrValue(okUser(userId, password), usr -> {
 
 			String query;
-			if(DB.BASE == DB.NOSQL) {
+			if(DB.BASE.equals(DB.NOSQL)) {
 
 				var followingQuery = format("SELECT VALUE f.followee FROM f WHERE f.follower = '%s'", userId);
 				var followingList = DB.sql(followingQuery, String.class);

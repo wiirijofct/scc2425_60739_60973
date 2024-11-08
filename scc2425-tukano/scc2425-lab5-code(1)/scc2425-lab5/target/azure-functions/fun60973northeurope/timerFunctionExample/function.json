@@ -1,0 +1,10 @@
+{
+  "scriptFile" : "../scc2425-lab5-1.0.jar",
+  "entryPoint" : "scc.serverless.TimerFunction.run",
+  "bindings" : [ {
+    "type" : "timerTrigger",
+    "direction" : "in",
+    "name" : "timerFunctionTrigger",
+    "schedule" : "0 * * * * *"
+  } ]
+}

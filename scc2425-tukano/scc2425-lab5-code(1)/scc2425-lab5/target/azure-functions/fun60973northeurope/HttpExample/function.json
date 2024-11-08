@@ -1,0 +1,16 @@
+{
+  "scriptFile" : "../scc2425-lab5-1.0.jar",
+  "entryPoint" : "scc.serverless.HttpFunction.run",
+  "bindings" : [ {
+    "type" : "httpTrigger",
+    "direction" : "in",
+    "name" : "req",
+    "route" : "serverless/echo/{text}",
+    "methods" : [ "GET", "POST" ],
+    "authLevel" : "ANONYMOUS"
+  }, {
+    "type" : "http",
+    "direction" : "out",
+    "name" : "$return"
+  } ]
+}
