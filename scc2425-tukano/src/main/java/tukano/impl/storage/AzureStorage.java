@@ -23,7 +23,6 @@ public class AzureStorage implements BlobStorage {
 
     private static Logger Log = Logger.getLogger(AzureStorage.class.getName());
 
-    // this is hardcoded for now, should be in a config file or env variable
     private static final String storageConnectionString = Props.get("BlobStoreConnection", "error?");
 
     BlobContainerClient containerClient = new BlobContainerClientBuilder()
@@ -34,8 +33,6 @@ public class AzureStorage implements BlobStorage {
     @Override
     public Result<Void> write(String path, byte[] bytes) {
     
-        // im assuming the path is the blobId here
-        // idk if the path should be the container uri + blobId
         try {
             BlobClient blobClient = containerClient.getBlobClient(path);
             BinaryData data = BinaryData.fromBytes(bytes);

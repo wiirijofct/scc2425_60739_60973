@@ -1,7 +1,0 @@
-scc/data/User.class
-scc/serverless/CosmosDBFunction.class
-scc/serverless/TimerFunction.class
-scc/serverless/CosmosDBFunction$1.class
-scc/utils/GSON.class
-scc/serverless/HttpFunction.class
-scc/serverless/BlobStoreFunction.class
