@@ -25,21 +25,22 @@ public class ViewCountFunction {
 	// private static final String BLOBSTORE_CONNECTION_ENV = "BlobStoreConnection";
 	// private static final String COSMOSDB_CONNECTION_ENV = "CosmosDBConnection";
 	private static final String COSMOSDB_DATABASE_ENV = "COSMOSDB_DATABASE";
-	private static final String COSMOSDB_CONTAINER = "Shorts";
+	private static final String COSMOSDB_CONTAINER = "shorts";
 	private static final String COSMOSDB_KEY_ENV = "COSMOSDB_KEY";
 	private static final String COSMOSDB_URL_ENV = "COSMOSDB_URL";
 
 	private static final CosmosAsyncClient cosmosClient = new CosmosClientBuilder()
-			.endpoint(COSMOSDB_URL_ENV)
-			.key(COSMOSDB_KEY_ENV)
-			.gatewayMode()
-			.consistencyLevel(ConsistencyLevel.SESSION)
-			.connectionSharingAcrossClientsEnabled(true)
-			.contentResponseOnWriteEnabled(true)
-			.buildAsyncClient();
+        .endpoint(System.getenv("COSMOSDB_URL"))
+        .key(System.getenv("COSMOSDB_KEY"))
+        .gatewayMode()
+        .consistencyLevel(ConsistencyLevel.SESSION)
+        .connectionSharingAcrossClientsEnabled(true)
+        .contentResponseOnWriteEnabled(true)
+        .buildAsyncClient();
 
-	private static final CosmosAsyncContainer container = cosmosClient.getDatabase(COSMOSDB_DATABASE_ENV)
-			.getContainer(COSMOSDB_CONTAINER);
+private static final CosmosAsyncContainer container = cosmosClient
+        .getDatabase(System.getenv("COSMOSDB_DATABASE"))
+        .getContainer(COSMOSDB_CONTAINER);
 
 	
 	@FunctionName(FUNCTION_NAME)
@@ -51,13 +52,13 @@ public class ViewCountFunction {
 		context.getLogger().info("Java HTTP trigger processed a request.");
 
 		Map<String, String> params = request.getQueryParameters();
-		String blobname = params.get("blobname");
+		String blobname = params.getOrDefault("blobname", "");
 		context.getLogger().info("blobname: " + blobname);
 		if (blobname == null) {
 			context.getLogger().warning("blobname parameter is missing");
 			return;
 		}
-		String ItemId = params.get("ItemId");
+		String ItemId = blobname.replace('/', '+');
 		context.getLogger().info("ItemId: " + ItemId);
 		if (ItemId == null) {
 			context.getLogger().warning("ItemId parameter is missing");

@@ -124,29 +124,23 @@ public class AzureStorage implements BlobStorage {
 
     }
 
-    private void triggerRead(String blobname){
-        String FUNCTION_URL = Props.get("FUNCTION_URL", "error?");
-        String FUNCTION_KEY = Props.get("FUNCTION_KEY", "error?");
-
+    private void triggerRead(String blobname) {
+        String FUNCTION_URL = Props.get("FUNCTION_URL", "");
         String url = FUNCTION_URL + "&blobname=" + blobname;
-        System.out.println("triggering read: " + url);
-
-        // trigger the function
+    
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
             try {
                 URL urlObj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
                 con.setRequestMethod("GET");
-                con.setRequestProperty("x-functions-key", FUNCTION_KEY);
                 con.connect();
                 int responseCode = con.getResponseCode();
                 System.out.println("response code: " + responseCode);
                 String responseMessage = con.getResponseMessage();
                 if (responseCode != 200) {
                     System.out.println("Error triggering read: " + responseMessage);
-                }
-                else {
+                } else {
                     System.out.println("Successfully triggered read");
                 }
             } catch (Exception e) {
