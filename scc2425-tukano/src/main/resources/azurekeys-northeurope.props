@@ -11,3 +11,5 @@ secret=verysecretlol
 
 #database=postgres
 database=nosql
+
+CACHE_STATUS=ON

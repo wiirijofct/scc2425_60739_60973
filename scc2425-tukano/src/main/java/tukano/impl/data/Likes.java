@@ -9,8 +9,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "likes")
 public class Likes {
-
-	private static final String DIFFERENTIATOR = "awcrtmuh";
 	
 	@Id
 	String id;
@@ -26,7 +24,7 @@ public class Likes {
 	public Likes(String userId, String shortId, String ownerId) {
 		this.userId = userId;
 		this.shortId = shortId;
-		this.id = userId + DIFFERENTIATOR + shortId;
+		this.id = userId + shortId;
 		this.ownerId = ownerId;
 	}
 

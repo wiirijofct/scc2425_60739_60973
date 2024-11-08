@@ -63,11 +63,13 @@ public class JavaShorts implements Shorts {
 			var shrt = new Short(shortId, userId, blobUrl);
 
 			return errorOrValue(DB.insertOne(shrt), s -> {
-				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-					var shortKey = SHORTS_PREFIX + shortId;
-					var value = JSON.encode(shrt);
-					jedis.set(shortKey, value);
-					jedis.expire(shortKey, SHORT_TTL);
+				if(RedisCache.isEnabled()) {
+					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+						var shortKey = SHORTS_PREFIX + shortId;
+						var value = JSON.encode(shrt);
+						jedis.set(shortKey, value);
+						jedis.expire(shortKey, SHORT_TTL);
+					}
 				}
 				return s.copyWithLikes_And_Token(0);
 			});
@@ -85,17 +87,19 @@ public class JavaShorts implements Shorts {
 		int likesCount = -1;
 
 		// Tries to get the short and its likes from the cache
-		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-			var shortKey = SHORTS_PREFIX + shortId;
-			var shortValue = jedis.get(shortKey);
-			if (shortValue != null) {
-				jedis.expire(shortKey, SHORT_TTL);
-				shrtResult = Result.ok(JSON.decode(shortValue, Short.class));
-			}
-			var key = LIKES_PREFIX + shortId;
-			if (jedis.exists(key)) {
-				var value = jedis.lrange(key, 0, -1);
-				likesCount = value.size();
+		if(RedisCache.isEnabled()) {
+			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+				var shortKey = SHORTS_PREFIX + shortId;
+				var shortValue = jedis.get(shortKey);
+				if (shortValue != null) {
+					jedis.expire(shortKey, SHORT_TTL);
+					shrtResult = Result.ok(JSON.decode(shortValue, Short.class));
+				}
+				var key = LIKES_PREFIX + shortId;
+				if (jedis.exists(key)) {
+					var value = jedis.lrange(key, 0, -1);
+					likesCount = value.size();
+				}
 			}
 		}
 		// If cant get short from cache, get it from the database
@@ -161,7 +165,7 @@ public class JavaShorts implements Shorts {
 				
 				JavaBlobs.getInstance().delete(shrt.getBlobUrl(), Token.get());
 
-				if (res.isOK()) {					
+				if (RedisCache.isEnabled() && res.isOK()) {					
 					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
 						var shortKey = SHORTS_PREFIX + shortId;
 						jedis.del(shortKey);
@@ -225,7 +229,7 @@ public class JavaShorts implements Shorts {
 			var l = new Likes(userId, shortId, shrt.getOwnerId());
 			return errorOrVoid(okUser(userId, password), usr -> {
 				var result = isLiked ? DB.insertOne(l) : DB.deleteOne(l);
-				if (result.isOK()) {
+				if (RedisCache.isEnabled() && result.isOK()) {
 					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
 						var key = LIKES_PREFIX + shortId;
 						if (jedis.exists(key))
@@ -245,9 +249,11 @@ public class JavaShorts implements Shorts {
 		Log.info(() -> format("likes : shortId = %s, pwd = %s\n", shortId, password));
 
 		List<String> likeList = null;
-		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-			var key = LIKES_PREFIX + shortId;
-			likeList = jedis.lrange(key, 0, -1);
+		if(RedisCache.isEnabled()) {
+			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+				var key = LIKES_PREFIX + shortId;
+				likeList = jedis.lrange(key, 0, -1);
+			}
 		}
 
 		// Needed to avoid the final modifier error
@@ -266,10 +272,12 @@ public class JavaShorts implements Shorts {
 					query = format("SELECT userId FROM likes WHERE shortId = '%s'", shortId);
 				var likesList = DB.sql(query, String.class);
 				
-				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-					var key = LIKES_PREFIX + shortId;
-					jedis.lpush(key, likesList.toArray(new String[0]));
-					jedis.expire(key, LIKE_LIST_TTL);
+				if(RedisCache.isEnabled()) {
+					try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+						var key = LIKES_PREFIX + shortId;
+						jedis.lpush(key, likesList.toArray(new String[0]));
+						jedis.expire(key, LIKE_LIST_TTL);
+					}
 				}
 
 				return likesList;
@@ -329,7 +337,7 @@ public class JavaShorts implements Shorts {
 		
 				for (Short shortObj : shortsList) {
 					Result<Short> deleteShortRes = DB.deleteOne(shortObj);
-					if (deleteShortRes.isOK()) {
+					if (RedisCache.isEnabled() && deleteShortRes.isOK()) {
 						try (Jedis jedis = RedisCache.getCachePool().getResource()) {
 							var shortKey = SHORTS_PREFIX + shortObj.getShortId();
 							jedis.del(shortKey);
