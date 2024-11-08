@@ -49,9 +49,6 @@ public class AzureStorage implements BlobStorage {
 
     @Override
     public Result<Void> delete(String path) {
-
-        System.out.println("deleting blob: " + path);
-
         try {
             BlobClient blobClient = containerClient.getBlobClient(path);
             blobClient.delete();

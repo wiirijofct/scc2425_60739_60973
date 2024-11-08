@@ -95,7 +95,6 @@ public class CosmosDB {
     
     public <T> Result<T> getOne(String id, Class<T> clazz) {
         try {
-            System.out.println("GETTING ONE FROM THE COSMOS DB ");
             CosmosContainer cosmosContainer = getContainerForClass(clazz);
             CosmosItemResponse<T> response = cosmosContainer.readItem(id, new PartitionKey(id), new CosmosItemRequestOptions(), clazz);
             return Result.ok(response.getItem());
@@ -152,7 +151,6 @@ public class CosmosDB {
             case "string" -> containerName = "shorts";
             default -> throw new IllegalArgumentException("Unknown class: " + name);
         }
-        System.out.println("Container id : " + cosmosDatabase.getContainer(containerName).getId());
         return cosmosDatabase.getContainer(containerName);
     }
 
