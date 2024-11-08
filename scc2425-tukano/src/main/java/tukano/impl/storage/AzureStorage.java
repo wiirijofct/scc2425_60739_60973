@@ -1,5 +1,9 @@
 package tukano.impl.storage;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,6 +94,7 @@ public class AzureStorage implements BlobStorage {
       try {
           BlobClient blobClient = containerClient.getBlobClient(path);
           BinaryData data = blobClient.downloadContent();
+          triggerRead(path);
           return Result.ok(data.toBytes());
       } catch (BlobStorageException e) {
           Log.log(Level.SEVERE, "Error reading from Azure Storage: {0}", e.getMessage());
@@ -117,6 +122,38 @@ public class AzureStorage implements BlobStorage {
             return Result.error(Result.ErrorCode.INTERNAL_ERROR);
         }
 
+    }
+
+    private void triggerRead(String blobname){
+        String FUNCTION_URL = Props.get("FUNCTION_URL", "error?");
+        String FUNCTION_KEY = Props.get("FUNCTION_KEY", "error?");
+
+        String url = FUNCTION_URL + "&blobname=" + blobname;
+        System.out.println("triggering read: " + url);
+
+        // trigger the function
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+            try {
+                URL urlObj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
+                con.setRequestMethod("GET");
+                con.setRequestProperty("x-functions-key", FUNCTION_KEY);
+                con.connect();
+                int responseCode = con.getResponseCode();
+                System.out.println("response code: " + responseCode);
+                String responseMessage = con.getResponseMessage();
+                if (responseCode != 200) {
+                    System.out.println("Error triggering read: " + responseMessage);
+                }
+                else {
+                    System.out.println("Successfully triggered read");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        executor.shutdown();
     }
     
 }

@@ -1,9 +1,8 @@
-package tukano.api;
+package scc.data;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import tukano.impl.Token;
 
 /**
  * Represents a Short video uploaded by an user.
@@ -27,7 +26,7 @@ public class Short {
 	String blobUrl;
 	long timestamp;
 	int totalLikes;
-	int totalViews;
+    int totalViews;
 
 	public Short() {}
 	
@@ -39,7 +38,7 @@ public class Short {
 		this.blobUrl = blobUrl;
 		this.timestamp = timestamp;
 		this.totalLikes = totalLikes;
-		this.totalViews = totalViews;
+        this.totalViews = totalViews;
 	}
 
 	public Short(String shortId, String ownerId, String blobUrl) {
@@ -91,22 +90,21 @@ public class Short {
 		this.totalLikes = totalLikes;
 	}
 
-	public int getTotalViews() {
-		return totalViews;
-	}
+    public int getTotalViews() {
+        return totalViews;
+    }
 
-	public void setTotalViews(int totalViews) {
-		this.totalViews = totalViews;
-	}
+    public void setTotalViews(int totalViews) {
+        this.totalViews = totalViews;
+    }
+
+    public void incrementTotalViews() {
+        this.totalViews++;
+    }
 
 	@Override
 	public String toString() {
 		return "Short [shortId=" + shortId + ", ownerId=" + ownerId + ", blobUrl=" + blobUrl + ", timestamp="
 				+ timestamp + ", totalLikes=" + totalLikes + "]";
 	}
-	
-	public Short copyWithLikes_Views_And_Token( long totLikes, long totViews ) {
-		var urlWithToken = String.format("%s?token=%s", blobUrl, Token.get(blobUrl));
-		return new Short( shortId, ownerId, urlWithToken, timestamp, (int)totLikes, (int)totViews);
-	}	
 }

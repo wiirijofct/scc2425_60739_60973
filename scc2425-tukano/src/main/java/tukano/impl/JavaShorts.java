@@ -4,14 +4,9 @@ import static java.lang.String.format;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import org.hibernate.Session;
 
 import redis.clients.jedis.Jedis;
-import tukano.api.User;
 import tukano.api.Blobs;
 import tukano.api.Result;
 import static tukano.api.Result.ErrorCode.BAD_REQUEST;
@@ -23,6 +18,7 @@ import static tukano.api.Result.errorOrVoid;
 import static tukano.api.Result.ok;
 import tukano.api.Short;
 import tukano.api.Shorts;
+import tukano.api.User;
 import tukano.impl.data.Following;
 import tukano.impl.data.Likes;
 import tukano.impl.rest.TukanoRestServer;
@@ -69,7 +65,7 @@ public class JavaShorts implements Shorts {
 					jedis.set(shortKey, value);
 					jedis.expire(shortKey, SHORT_TTL);
 				}
-				return s.copyWithLikes_And_Token(0);
+				return s.copyWithLikes_Views_And_Token(0,0);
 			});
 		});
 	}
@@ -116,7 +112,7 @@ public class JavaShorts implements Shorts {
 		// Needed to avoid the final modifier error
 		int finalLikesCount = likesCount;
 
-		return errorOrValue(shrtResult, shrt -> shrt.copyWithLikes_And_Token(finalLikesCount));
+		return errorOrValue(shrtResult, shrt -> shrt.copyWithLikes_Views_And_Token(finalLikesCount, shrt.getTotalViews()));
 	}
 
 	private Result<Void> deleShortInNoSql(Short shrt) {
