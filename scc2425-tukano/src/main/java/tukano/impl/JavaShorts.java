@@ -334,8 +334,9 @@ public class JavaShorts implements Shorts {
 				// Delete shorts
 				String deleteShortsQuery = format("SELECT * FROM s WHERE s.ownerId = '%s'", userId);
 				List<Short> shortsList = DB.sql(deleteShortsQuery, Short.class);
+				List<Short> shortsToDelete = new ArrayList<>(shortsList);
 		
-				for (Short shortObj : shortsList) {
+				for (Short shortObj : shortsToDelete) {
 					Result<Short> deleteShortRes = DB.deleteOne(shortObj);
 					if (RedisCache.isEnabled() && deleteShortRes.isOK()) {
 						try (Jedis jedis = RedisCache.getCachePool().getResource()) {
