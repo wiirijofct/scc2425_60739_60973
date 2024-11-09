@@ -4,6 +4,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class RedisCache {
+	private static final String CACHE_STATUS = Props.get("CACHE_STATUS", "error?");
 	private static final String RedisHostname = Props.get("REDIS_URL", "error?");
 	private static final String RedisKey = Props.get("REDIS_KEY", "error?");
 	private static final int REDIS_PORT = 6380;
@@ -27,5 +28,8 @@ public class RedisCache {
 		poolConfig.setBlockWhenExhausted(true);
 		instance = new JedisPool(poolConfig, RedisHostname, REDIS_PORT, REDIS_TIMEOUT, RedisKey, Redis_USE_TLS);
 		return instance;
+	}
+	public static boolean isEnabled() {
+		return CACHE_STATUS.equals("ON");
 	}
 }
