@@ -1,11 +1,11 @@
 # Date : 11/8/24, 3:45 PM
-BlobStoreConnection=DefaultEndpointsProtocol=https;AccountName=sto60739northeurope;AccountKey=uEbsJgVKkxJvuz7cwmM4TbcgWXtpJV9eF4KX4weOXJzR/AEtsqCV5hVJJz87vhk2wGnoetxYyQbW+AStmilSMw==;EndpointSuffix=core.windows.net
-COSMOSDB_KEY=IGu0EMqL45NrxijVjMUeGL4rKQ1u02DrfL9aIvTlW9vQMwqbsCMbwZWBQipKxXJR8hjebLpnBNv8ACDbLELlmA==
-COSMOSDB_URL=https://cosmos60739.documents.azure.com:443/
-COSMOSDB_DATABASE=cosmosdb60739
+BlobStoreConnection=DefaultEndpointsProtocol=https;AccountName=sto60973northeurope;AccountKey=zM1xEvDK+7FwMYeu1hVdJAKEMatrLv9PCszPJDijMTdWNQ6d9ersUVwrBiKdjlA/4WxZ1iawsTEX+AStj2TSbQ==;EndpointSuffix=core.windows.net
+COSMOSDB_KEY=dovpUz3vl5WZN9bFJqszCgK8npe1J9cTSXEvj5dwNRTcPz0xtKlu2jjCckqObAGfxLOzhtjkwLq4ACDbHNNKxQ==
+COSMOSDB_URL=https://cosmos60973.documents.azure.com:443/
+COSMOSDB_DATABASE=cosmosdb60973
 
-REDIS_KEY=fTYNEkjYxoseEvkxxgMJ8j6OxQmQJG4v2AzCaKEwqPs=
-REDIS_URL=redis60739northeurope.redis.cache.windows.net
+REDIS_KEY=OOotH3a6NDZfPPqGHCoD80uVDBilQo52sAzCaJ0jE3Q=
+REDIS_URL=redis60973northeurope.redis.cache.windows.net
 
 FUNCTION_URL=https://fun60739northeurope.azurewebsites.net/lab5/ViewCountFunction?code=nl5xOyqIvQAHaA4GfaSlzqNh7OqosxHIluznpfdZczmxAzFuIHst_A%3D%3D
 FUNCTION_KEY=nl5xOyqIvQAHaA4GfaSlzqNh7OqosxHIluznpfdZczmxAzFuIHst_A==

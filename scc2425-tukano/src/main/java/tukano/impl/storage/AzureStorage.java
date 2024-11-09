@@ -27,7 +27,7 @@ public class AzureStorage implements BlobStorage {
 
     BlobContainerClient containerClient = new BlobContainerClientBuilder()
 		.connectionString(storageConnectionString)
-		.containerName("blobs")
+		.containerName("shorts")
 		.buildClient();
 
     @Override
