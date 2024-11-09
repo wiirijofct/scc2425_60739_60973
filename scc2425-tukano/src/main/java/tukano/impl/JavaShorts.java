@@ -317,7 +317,7 @@ public class JavaShorts implements Shorts {
 	}
 
 	private Result<Void> deleteAllNoSqlShorts(String userId) {
-			return DB.transaction((cosmos) -> {
+			return DB.noSqltransaction((cosmos) -> {
 		
 				// Delete shorts
 				String deleteShortsQuery = format("SELECT * FROM s WHERE s.ownerId = '%s'", userId);
