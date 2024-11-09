@@ -26,7 +26,7 @@ public class JavaUsers implements Users {
 
 	private static Users instance;
 
-	private static final int USER_CACHE_TTL = 10; // 3 seconds
+	private static final int USER_CACHE_TTL = 3; // 3 seconds
 	private static final String USERS_PREFIX = "users:";
 	
 	synchronized public static Users getInstance() {
@@ -41,18 +41,17 @@ public class JavaUsers implements Users {
 	public Result<String> createUser(User user) {
 		Log.info(() -> format("createUser : %s\n", user));
 
-		System.out.println("#######################################################################");
-		System.out.println("db: " + DB.BASE);
-
 		if( badUserInfo( user ) )
 				return error(BAD_REQUEST);
 
 		return errorOrValue( DB.insertOne( user), usr -> {
-			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-				var key = USERS_PREFIX + user.getUserId();
-				var value = JSON.encode(user);
-				jedis.set(key, value);
-				jedis.expire(key, USER_CACHE_TTL);
+			if(RedisCache.isEnabled()) {
+				try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+					var key = USERS_PREFIX + user.getUserId();
+					var value = JSON.encode(user);
+					jedis.set(key, value);
+					jedis.expire(key, USER_CACHE_TTL);
+				}
 			}
 
 			return user.getUserId();} );
@@ -65,12 +64,14 @@ public class JavaUsers implements Users {
 		if (userId == null)
 			return error(BAD_REQUEST);
 
-		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-			var key = USERS_PREFIX + userId;
-			var val =jedis.get(key);
-			if (val != null) {
-				var user = JSON.decode(val, User.class);
-				return validatedUserOrError( ok(user), pwd);
+		if(RedisCache.isEnabled()) {
+			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+				var key = USERS_PREFIX + userId;
+				var val =jedis.get(key);
+				if (val != null) {
+					var user = JSON.decode(val, User.class);
+					return validatedUserOrError( ok(user), pwd);
+				}
 			}
 		}
 		return validatedUserOrError( DB.getOne( userId, User.class), pwd);
@@ -83,16 +84,18 @@ public class JavaUsers implements Users {
 		if (badUpdateUserInfo(userId, pwd, other))
 			return error(BAD_REQUEST);
 			
-		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-			var key = USERS_PREFIX + userId;
-			var val =jedis.get(key);
-			if (val != null) {
-				var user = JSON.decode(val, User.class);
-				var userIs = validatedUserOrError( ok(user), pwd);
-				if (userIs.isOK()) {
-					jedis.set(key, JSON.encode(other));
+		if(RedisCache.isEnabled()) {
+			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+				var key = USERS_PREFIX + userId;
+				var val =jedis.get(key);
+				if (val != null) {
+					var user = JSON.decode(val, User.class);
+					var userIs = validatedUserOrError( ok(user), pwd);
+					if (userIs.isOK()) {
+						jedis.set(key, JSON.encode(other));
+					}
+					return errorOrResult( userIs, usr -> DB.updateOne( user.updateFrom(other)));
 				}
-				return errorOrResult( userIs, usr -> DB.updateOne( user.updateFrom(other)));
 			}
 		}
 		return errorOrResult( validatedUserOrError(DB.getOne( userId, User.class), pwd), user -> DB.updateOne( user.updateFrom(other)));
@@ -106,14 +109,16 @@ public class JavaUsers implements Users {
 			return error(BAD_REQUEST);
 
 		Result<User> userIsOk = null;
-		try (Jedis jedis = RedisCache.getCachePool().getResource()) {
-			var key = USERS_PREFIX + userId;
-			var val =jedis.get(key);
-			if (val != null) {
-				var user = JSON.decode(val, User.class);
-				userIsOk = validatedUserOrError( ok(user), pwd);
-				if (userIsOk.isOK()) {
-					jedis.del(key);
+		if(RedisCache.isEnabled()) {
+			try (Jedis jedis = RedisCache.getCachePool().getResource()) {
+				var key = USERS_PREFIX + userId;
+				var val =jedis.get(key);
+				if (val != null) {
+					var user = JSON.decode(val, User.class);
+					userIsOk = validatedUserOrError( ok(user), pwd);
+					if (userIsOk.isOK()) {
+						jedis.del(key);
+					}
 				}
 			}
 		}

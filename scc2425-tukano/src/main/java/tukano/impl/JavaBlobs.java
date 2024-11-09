@@ -85,7 +85,6 @@ public class JavaBlobs implements Blobs {
 	}
 	
 	private boolean validBlobId(String blobId, String token) {		
-		System.out.println( toURL(blobId));
 		return Token.isValid(token, toURL(blobId));
 	}
 

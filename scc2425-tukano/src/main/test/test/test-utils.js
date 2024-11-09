@@ -73,8 +73,15 @@ function processRegisterReply(requestParams, response, context, ee, next) {
  */
 
 function uploadRandomizedUser(requestParams, context, ee, next) {
-    let username = randomUsername(10);
-    let pword = randomPassword(15);
+    if (!ee.global) {
+        ee.global = {};
+    }
+    if (typeof ee.global.userCounter === 'undefined') {
+        ee.global.userCounter = 1;  // Start the counter at 1
+    }
+    let username = "user"+ee.global.userCounter;
+    ee.global.userCounter += 1;
+    let pword = "";
     let email = username + "@campus.fct.unl.pt";
     let displayName = username;
     

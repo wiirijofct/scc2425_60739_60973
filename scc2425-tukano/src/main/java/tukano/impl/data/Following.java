@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 @Table(name = "following")
 public class Following{
 
-	// This is used to create id so there isnt a chance to exist two following with the same id
+	// This is used to create the id, so there is a reduced chance to exist two 'following' with the same id
 	private static final String DIFFERENTIATIOR = "arhmop";
 
 	@Id
