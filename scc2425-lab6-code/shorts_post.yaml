@@ -1,0 +1,31 @@
+config:
+  target: http://127.0.0.1:8080/tukano/rest
+  phases:
+    - duration: 14
+      arrivalRate: 1
+  payload:
+    path: ./data/users.csv
+    order: sequence
+    skipHeader: true
+    delimiter: ","
+    fields:
+      - "userId"
+      - "pwd"
+scenarios:
+  - name: CreateShorts
+    flow:
+      # Step 1: Create a short for the user
+      - post:
+          url: "/shorts/{{ userId }}"
+          headers:
+            Content-Type: application/json
+          qs:
+            pwd: "{{ pwd }}"
+          capture:
+            - json: "$.shortId"    # Capture the shortId from the response
+              as: shortId
+            - json: "$.blobUrl"     # Capture blobUrl to use in blob testing
+              as: blobUrl
+
+      # Log the captured shortId and blobUrl for debugging
+      - log: "Created short with shortId: {{ shortId }} and blobUrl: {{ blobUrl }}"

@@ -1,0 +1,29 @@
+config:
+  target: http://127.0.0.1:8080/tukano/rest
+  phases:
+    - duration: 14
+      arrivalRate: 1
+  payload:
+    path: ./shorts_for_blobs.csv
+    order: sequence
+    skipHeader: true
+    fields:
+      - "shortId"
+      - "token"
+scenarios:
+  - name: BlobsTest
+    flow:
+      - post:
+          url: "/blobs/{{ shortId }}"
+          headers:
+            Content-Type: application/octet-stream
+          qs:
+            token: "{{ token }}"
+          body: |
+            This is the blob data to upload.
+
+      - get:
+          url: "/blobs/{{ shortId }}"
+          qs:
+            token: "{{ token }}"
+
