@@ -1,1 +1,0 @@
-"blobUrl": "http://wiirijo:8080/rest/blobs/wiirijo+dbc5cc7c-1a6c-4ed8-b5ab-f8647ce20054?token=1731104228406-D0A48D05A240155C2495C4ACB8D3368F",

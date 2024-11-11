@@ -28,14 +28,17 @@ public class Hibernate {
 
 	private Hibernate() {
 		try {
-			sessionFactory = new Configuration().configure().buildSessionFactory();//Configuration().configure(new File(HIBERNATE_CFG_FILE)).buildSessionFactory();
-			// sessionFactory = new Configuration().configure(new File(HIBERNATE_CFG_FILE)).buildSessionFactory();
-
+			System.out.println("Starting Hibernate configuration...");
+			Configuration configuration = new Configuration().configure();
+			System.out.println("Configuration loaded successfully.");
+			sessionFactory = configuration.buildSessionFactory();
+			System.out.println("SessionFactory built successfully.");
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.err.println("Failed to initialize SessionFactory: " + e.getMessage());
 		}
 	}
-
+	
 	/**
 	 * Returns the Hibernate instance, initializing if necessary. Requires a
 	 * configuration file (hibernate.cfg.xml)
